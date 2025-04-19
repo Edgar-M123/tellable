@@ -1,18 +1,19 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { View, TextInput } from "react-native"
+import { View, TextInput, StyleSheet } from "react-native"
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { gls } from "@/app/_layout";
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import React from "react";
+import React, { ForwardedRef, forwardRef, RefObject} from "react";
 import { KeyboardEvents } from "react-native-keyboard-controller";
 import { ActiveCompContext, ActiveCompContextValues } from "@/app/_layout";
 
 
 
-export function SearchBar() {
+const SearchBar = forwardRef((props, ref: ForwardedRef<TextInput>) => {
+
+    const refTI = ref as RefObject<TextInput>
     
     const {theme} = useAppTheme()
-    const searchTIRef = React.useRef<TextInput>(null)
     const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
     
 
@@ -43,7 +44,7 @@ export function SearchBar() {
 
     React.useEffect(() => {
         const show = KeyboardEvents.addListener("keyboardWillHide", (e) => {
-            searchTIRef.current?.blur()
+            refTI.current?.blur()
         });
         
         return () => {
@@ -52,11 +53,11 @@ export function SearchBar() {
     }, []);
     
     return (
-        <Animated.View style={[gls.width100, gls.rows, gls.br, activeStyle, {borderWidth: 1, alignItems: "center", padding: 10, gap: 10}]}>
+        <Animated.View style={[gls.width100, gls.rows, gls.br, styles.container, activeStyle]}>
             <FontAwesome name="search" size={16} style={{padding: 0, margin: 0}} color={theme.onSurfaceWeak} />
             <TextInput
-            ref={searchTIRef}
-            style={[gls.width100, {fontFamily: "Merriweather-Regular", color: theme.onSurface}]}
+            ref={refTI}
+            style={[gls.f1, styles.input, {color: theme.onSurface}]}
             placeholder='search for keywords, dates, emotions...'
             placeholderTextColor={theme.onSurfaceWeakest}
             onFocus={activate}
@@ -64,4 +65,19 @@ export function SearchBar() {
             />
       </Animated.View>
     )
-}
+})
+
+export default SearchBar
+
+const styles = StyleSheet.create({
+    container: {
+        borderWidth: 1, 
+        alignItems: "center", 
+        paddingHorizontal: 10, 
+        gap: 10
+    },
+    input: {
+        paddingVertical: 10, 
+        fontFamily: "Merriweather-Regular",
+    }
+})

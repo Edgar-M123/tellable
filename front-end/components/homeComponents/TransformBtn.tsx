@@ -24,7 +24,7 @@ export function TransformBtn(props: {disabled: boolean}) {
         color: interpolateColor(
             activeProg.value,
             [0, 1],
-            [theme.onSurfaceWeakest, theme.onSurface]
+            [theme.onSurfaceWeakest, theme.onPrimary]
         ),
     }))
 

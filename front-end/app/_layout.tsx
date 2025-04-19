@@ -41,6 +41,7 @@ export default function RootLayout() {
           screenOptions={{
             headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
             headerStyle: {backgroundColor: theme.surface},
+            headerShadowVisible: false
           }}
           />
           <StatusBar style="auto" backgroundColor={theme.surface} />

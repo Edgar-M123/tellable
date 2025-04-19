@@ -21,7 +21,7 @@ export function ThemedText({
   return (
     <Text
       style={[
-        { color, textAlignVertical: "bottom" },
+        { color, textAlignVertical: "center" },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'bold' ? styles.defaultBold : undefined,

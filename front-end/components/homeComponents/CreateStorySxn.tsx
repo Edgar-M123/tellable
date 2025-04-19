@@ -24,13 +24,13 @@ export function CreateStorySxn() {
 
     return (
         <Animated.View 
-        layout={LinearTransition}
+        layout={LinearTransition.duration(250)}
         entering={FadeIn.duration(250)}
         exiting={FadeOut.duration(250)}
         style={[gls.width100, thmStyle.bgSurface, {padding: 10, gap: 10}]}
         >
             <View>
-                <ThemedText type='bold'>What happened today?</ThemedText>
+                <ThemedText type='title'>What happened today?</ThemedText>
                 <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Jot down something you experienced</ThemedText>
             </View>
             <StoryInput setStoryText={setStoryText}/>

@@ -17,7 +17,7 @@ export function HomeDivider() {
         style={[gls.width100, gls.rows, gls.centerAll, {gap: 10}]}
         >
             <View style={[gls.f1, {height: StyleSheet.hairlineWidth, backgroundColor: theme.onSurfaceWeak}]}></View>
-            <ThemedText type='small' style={[{color: theme.onSurfaceWeak}]}>or create new</ThemedText>
+            <ThemedText type='small' style={[{color: theme.onSurfaceWeakest}]}>or create new</ThemedText>
             <View style={[gls.f1, {height: StyleSheet.hairlineWidth, backgroundColor: theme.onSurfaceWeak}]}></View>
         </Animated.View>
     )

@@ -14,9 +14,9 @@
 		96905EF65AED1B983A6B3ABC /* libPods-tellable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-tellable.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		58F82D4FB7CA475DA3BDBF1B /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C53A7F6C8A4035AA195707 /* noop-file.swift */; };
-		1C896518133D4C4CB81F2D22 /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30252697AD4B4018B46CF298 /* Merriweather-Regular.ttf */; };
-		022B24E8707648BE9D1978FC /* Merriweather-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D6096159E4F41C0A438D1F2 /* Merriweather-Bold.ttf */; };
+		0CAF63DD166642478F829FA9 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6E0B951193C4208B4BCDDB5 /* noop-file.swift */; };
+		801645EA6D61468E8784ADF6 /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB6C8D4446A34BC59DAA41F6 /* Merriweather-Regular.ttf */; };
+		72E6F31A350F47FD83FABB3C /* Merriweather-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEEF60277E004D948AF44923 /* Merriweather-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +33,10 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-tellable/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		34C53A7F6C8A4035AA195707 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "tellable/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
-		A371DDCF6E7340CCACBE6256 /* tellable-Bridging-Header.h */ = {isa = PBXFileReference; name = "tellable-Bridging-Header.h"; path = "tellable/tellable-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		30252697AD4B4018B46CF298 /* Merriweather-Regular.ttf */ = {isa = PBXFileReference; name = "Merriweather-Regular.ttf"; path = "../assets/fonts/Merriweather-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4D6096159E4F41C0A438D1F2 /* Merriweather-Bold.ttf */ = {isa = PBXFileReference; name = "Merriweather-Bold.ttf"; path = "../assets/fonts/Merriweather-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E6E0B951193C4208B4BCDDB5 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "tellable/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		6EC6025F0C6F4B3EB6E7D70A /* tellable-Bridging-Header.h */ = {isa = PBXFileReference; name = "tellable-Bridging-Header.h"; path = "tellable/tellable-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		FB6C8D4446A34BC59DAA41F6 /* Merriweather-Regular.ttf */ = {isa = PBXFileReference; name = "Merriweather-Regular.ttf"; path = "../assets/fonts/Merriweather-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CEEF60277E004D948AF44923 /* Merriweather-Bold.ttf */ = {isa = PBXFileReference; name = "Merriweather-Bold.ttf"; path = "../assets/fonts/Merriweather-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +61,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				34C53A7F6C8A4035AA195707 /* noop-file.swift */,
-				A371DDCF6E7340CCACBE6256 /* tellable-Bridging-Header.h */,
+				E6E0B951193C4208B4BCDDB5 /* noop-file.swift */,
+				6EC6025F0C6F4B3EB6E7D70A /* tellable-Bridging-Header.h */,
 			);
 			name = tellable;
 			sourceTree = "<group>";
@@ -92,7 +92,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
-				96EB2E5A29B14C959E59A377 /* Resources */,
+				3920CE9E2E614876BBFD09DA /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -141,11 +141,11 @@
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		96EB2E5A29B14C959E59A377 /* Resources */ = {
+		3920CE9E2E614876BBFD09DA /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				30252697AD4B4018B46CF298 /* Merriweather-Regular.ttf */,
-				4D6096159E4F41C0A438D1F2 /* Merriweather-Bold.ttf */,
+				FB6C8D4446A34BC59DAA41F6 /* Merriweather-Regular.ttf */,
+				CEEF60277E004D948AF44923 /* Merriweather-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -213,9 +213,9 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				D6003F6826AB4E7984024B34 /* tellable-Bridging-Header.h in Resources */,
-				1C896518133D4C4CB81F2D22 /* Merriweather-Regular.ttf in Resources */,
-				022B24E8707648BE9D1978FC /* Merriweather-Bold.ttf in Resources */,
+				CF895E00C23145BA83E8590A /* tellable-Bridging-Header.h in Resources */,
+				801645EA6D61468E8784ADF6 /* Merriweather-Regular.ttf in Resources */,
+				72E6F31A350F47FD83FABB3C /* Merriweather-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +291,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				58F82D4FB7CA475DA3BDBF1B /* noop-file.swift in Sources */,
+				0CAF63DD166642478F829FA9 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
