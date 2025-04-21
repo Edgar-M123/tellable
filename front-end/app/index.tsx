@@ -13,6 +13,7 @@ import { CreateStorySxn } from '@/components/homeComponents/CreateStorySxn';
 import { ActiveCompContext, ActiveCompContextValues } from './_layout';
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated';
 import { BottomTab } from '@/components/homeComponents/BottomTab';
+import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
 
 
 
@@ -59,7 +60,7 @@ export default function HomeScreen() {
         )}
 
         {activeComp != "search" && (
-          <CreateStorySxn  />
+            <CreateStorySxn  />
         )}
 
         {activeComp == null && (

@@ -9,6 +9,7 @@ import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import {KeyboardProvider} from 'react-native-keyboard-controller'
+import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
 
 export const ActiveCompContext = React.createContext({})
 
@@ -40,26 +41,28 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <KeyboardProvider>
         <ActiveCompContextProvider>
-          <Stack
-          screenOptions={{
-            headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
-            headerStyle: {backgroundColor: theme.surface},
-            headerShadowVisible: false
-          }}
-          >
-            <Stack.Screen
-            name='index'
-            />
-            <Stack.Screen
-            name='calendar'
-            options={{
-              presentation: "transparentModal",
-              animation: "fade",
-              headerShown: false
+          <CreateStoryContextProvider>
+            <Stack
+            screenOptions={{
+              headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
+              headerStyle: {backgroundColor: theme.surface},
+              headerShadowVisible: false
             }}
-            />
-          </Stack>
-          <StatusBar style="auto" backgroundColor={theme.surface} />
+            >
+              <Stack.Screen
+              name='index'
+              />
+              <Stack.Screen
+              name='calendar'
+              options={{
+                presentation: "transparentModal",
+                animation: "fade",
+                headerShown: false
+              }}
+              />
+            </Stack>
+            <StatusBar style="auto" backgroundColor={theme.surface} />
+          </CreateStoryContextProvider>
         </ActiveCompContextProvider>
       </KeyboardProvider>
     </ThemeProvider>

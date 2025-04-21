@@ -1,13 +1,14 @@
 
-import { BackHandler, TouchableWithoutFeedback, Pressable } from "react-native"
+import { View, TouchableWithoutFeedback, Pressable } from "react-native"
 import { ActiveCompContext, ActiveCompContextValues, gls } from "./_layout";
-import {Calendar} from 'react-native-calendars';
+import {Calendar, DateData} from 'react-native-calendars';
 import { KeyboardAvoidingView, } from "react-native-keyboard-controller";
 import { useFocusEffect, useRouter } from "expo-router";
 import React from "react";
 import Animated, {useSharedValue, useAnimatedStyle, interpolateColor, interpolate, withTiming} from "react-native-reanimated";
-import { AnimThemedText } from "@/components/ThemedText";
+import { AnimThemedText, ThemedText } from "@/components/ThemedText";
 import { useAppTheme } from "@/hooks/useAppTheme";
+import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
 
 export default function CalendarModal() {
 
@@ -15,6 +16,8 @@ export default function CalendarModal() {
     const [disabled, setDisabled] = React.useState(true)
     const {theme, thmStyle} = useAppTheme()
     const {setShowCalendar} = React.useContext(ActiveCompContext) as ActiveCompContextValues
+    const {storyDate, setStoryDate} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const [selectedDate, setSelectedDate] = React.useState(storyDate)
 
     const activeProg = useSharedValue(0)
 
@@ -34,6 +37,11 @@ export default function CalendarModal() {
             [theme.onSurfaceWeakest, theme.onPrimary]
         ),
     }))
+
+    React.useEffect(() => {
+        selectedDate != storyDate && setDisabled(false)
+        selectedDate == storyDate && setDisabled(true)
+    }, [selectedDate])
 
     React.useEffect(() => {
 
@@ -56,7 +64,7 @@ export default function CalendarModal() {
 
     return (
         <TouchableWithoutFeedback
-        onPress={() => router.dismiss()}
+        onPress={() => {setStoryDate(selectedDate); router.dismiss()}}
         >
             <KeyboardAvoidingView
             style={[gls.f1, gls.width100, gls.centerAll, {gap: 10, backgroundColor: "rgba(0,0,0, 0.7)",}]}
@@ -64,25 +72,56 @@ export default function CalendarModal() {
             keyboardVerticalOffset={-50}
             >
 
-                <Calendar
-                style={[gls.br, {minWidth: "80%"}]}
-                theme={{
-                    calendarBackground: theme.surfaceContainer,
-                    selectedDotColor: theme.accent
+                <View style={{minWidth: "80%", maxWidth: "80%", gap: 10}}>
 
-                }}
-                />
+                    <Calendar
+                    style={[gls.br, gls.width100, {zIndex: 50}]}
+                    theme={{
+                        calendarBackground: theme.surfaceContainer,
+                        selectedDayBackgroundColor: theme.primary,
+                        selectedDayTextColor: theme.onSurface,
+                        dayTextColor: theme.onSurfaceWeak,
+                        arrowColor: theme.onSurface,
+                        monthTextColor: theme.onSurface,
+                        textDayFontFamily: "Merriweather-Regular",
+                        textMonthFontFamily: "Merriweather-Regular",
+                        textDayHeaderFontFamily: "Merriweather-Regular",
+                        textDisabledColor: theme.onSurfaceWeakest,
 
-                <Animated.View
-                style={[activeBtn, gls.centerAll, gls.br, {overflow: 'hidden'}]}
-                >
-                    <Pressable 
-                    style={({pressed}) => [gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
-                    disabled={disabled}
-                    >
-                        <AnimThemedText style={[activeText]}>Save</AnimThemedText>
-                    </Pressable>
-                </Animated.View>
+                    }}
+                    enableSwipeMonths={true}
+                    onDayPress={(day: DateData) => {setSelectedDate(day.dateString)}}
+                    markedDates={{
+                        [selectedDate]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+                    }}
+                    />
+
+                    <View style={[gls.width100, gls.rows, {gap: 10, alignItems: 'center', justifyContent: "flex-end"}]}>
+                        
+                        <Pressable 
+                        style={({pressed}) => [gls.br, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgSurfaceHover]]}
+                        onPress={() => router.dismiss()}
+                        >
+                            <ThemedText>Cancel</ThemedText>
+                        </Pressable>
+                        
+                        <Animated.View
+                        style={[activeBtn, gls.br, gls.centerAll, {overflow: 'hidden'}]}
+                        >
+                            <Pressable 
+                            style={({pressed}) => [gls.centerAll, {padding: 10, paddingHorizontal: 15}, pressed && [thmStyle.bgPrimaryHover]]}
+                            onPress={() => {setStoryDate(selectedDate); router.dismiss()}}
+                            disabled={disabled}
+                            >
+                                <AnimThemedText type={'bold'} style={[activeText]}>Save</AnimThemedText>
+                            </Pressable>
+                        </Animated.View>
+
+                    </View>
+
+
+                </View>
+
 
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

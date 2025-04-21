@@ -1,20 +1,19 @@
 
-import { ActiveCompContext, ActiveCompContextValues, gls } from "@/app/_layout";
-import { Pressable, StyleSheet, View, TouchableWithoutFeedback } from "react-native"
+import { gls } from "@/app/_layout";
+import { Pressable, StyleSheet, View } from "react-native"
 import { ThemedText } from "../ThemedText";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import Animated, { LinearTransition, FadeIn, FadeOut } from "react-native-reanimated";
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from "expo-router";
-import { OverKeyboardView } from "react-native-keyboard-controller";
-import {GestureHandlerRootView, TouchableOpacity} from 'react-native-gesture-handler'
-import { Calendar } from "react-native-calendars";
+import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
 
-export function StoryDateSelect(props: {date: string}) {
+export function StoryDateSelect() {
 
     const {theme, thmStyle} = useAppTheme()
     const router = useRouter()
+    const {storyDate, setStoryDate} = React.useContext(CreateStoryContext) as CreateStoryContextValues
 
     return (
         <Animated.View 
@@ -38,26 +37,41 @@ export function StoryDateSelect(props: {date: string}) {
                 <View
                 style={[gls.f1, {justifyContent: 'center'}]}
                 >
-                    <ThemedText>{props.date}</ThemedText>
+                    <ThemedText>{storyDate}</ThemedText>
                 </View>
 
                 <Pressable 
                 style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer, 
-                    (props.date == new Date().toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
+                    (storyDate == new Date().toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
                 ]}
+                onPress={() => setStoryDate(new Date().toJSON().slice(0, 10))}
                 >
                     <ThemedText 
                     type="small" 
                     style={[
                         {color: theme.onSurfaceWeakest},
-                        (props.date == new Date().toJSON().slice(0, 10)) && {color: theme.onSurface}
+                        (storyDate == new Date().toJSON().slice(0, 10)) && {color: theme.onSurface}
                     ]}
                     >
                         Today
                     </ThemedText>
                 </Pressable>
-                <Pressable style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer]}>
-                    <ThemedText type="small" style={{color: theme.onSurfaceWeakest}}>Yesterday</ThemedText>
+
+                <Pressable 
+                style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer, 
+                    (storyDate == new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
+                ]}
+                onPress={() => setStoryDate(new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10))}
+                >
+                    <ThemedText 
+                    type="small"
+                    style={[
+                        {color: theme.onSurfaceWeakest},
+                        (storyDate == new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)) && {color: theme.onSurface}
+                    ]}
+                    >
+                        Yesterday
+                    </ThemedText>
                 </Pressable>
 
             </Pressable>
