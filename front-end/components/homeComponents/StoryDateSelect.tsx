@@ -25,26 +25,42 @@ export function StoryDateSelect(props: {date: string}) {
 
             <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>What day?</ThemedText>
 
-            <View style={[gls.rows, gls.width100, gls.br, styles.dateContainer, {alignItems: "center", borderColor: theme.surfaceContainer}]}>
+            <Pressable 
+            style={({pressed}) => [gls.rows, gls.width100, gls.br, styles.dateContainer, {alignItems: "center", borderColor: theme.surfaceContainer},
+                pressed && {backgroundColor: theme.surfaceHover}
+            ]}
+            onPress={() => {router.navigate("/calendar")}}
+            >
 
                 <Feather name="calendar" size={16} color={theme.onSurfaceWeakest} />
                 
                 {/* data picker here */}
-                <Pressable
-                style={({pressed}) => [gls.f1, {justifyContent: 'center'}, pressed && {backgroundColor: theme.surfaceHover}]}
-                onPress={() => {router.navigate("/calendar")}}
+                <View
+                style={[gls.f1, {justifyContent: 'center'}]}
                 >
                     <ThemedText>{props.date}</ThemedText>
-                </Pressable>
+                </View>
 
-                <Pressable style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer]}>
-                    <ThemedText type="small" style={{color: theme.onSurfaceWeakest}}>Today</ThemedText>
+                <Pressable 
+                style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer, 
+                    (props.date == new Date().toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
+                ]}
+                >
+                    <ThemedText 
+                    type="small" 
+                    style={[
+                        {color: theme.onSurfaceWeakest},
+                        (props.date == new Date().toJSON().slice(0, 10)) && {color: theme.onSurface}
+                    ]}
+                    >
+                        Today
+                    </ThemedText>
                 </Pressable>
                 <Pressable style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer]}>
                     <ThemedText type="small" style={{color: theme.onSurfaceWeakest}}>Yesterday</ThemedText>
                 </Pressable>
 
-            </View>
+            </Pressable>
 
         </Animated.View>
     )
