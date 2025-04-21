@@ -15,14 +15,17 @@ export const ActiveCompContext = React.createContext({})
 export interface ActiveCompContextValues {
   activeComp: "story" | "search" | null;
   setActiveComp:React.Dispatch<React.SetStateAction<"story" | "search" | null>>;
+  showCalendar: boolean;
+  setShowCalendar:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function ActiveCompContextProvider(props: {children: any}) {
 
   const [activeComp, setActiveComp] = React.useState<"story" | "search" | null>(null)
+  const [showCalendar, setShowCalendar] = React.useState(false)
 
   return (
-    <ActiveCompContext.Provider value={{activeComp, setActiveComp}}>
+    <ActiveCompContext.Provider value={{activeComp, setActiveComp, showCalendar, setShowCalendar}}>
       {props.children}
     </ActiveCompContext.Provider>
   )
@@ -43,7 +46,19 @@ export default function RootLayout() {
             headerStyle: {backgroundColor: theme.surface},
             headerShadowVisible: false
           }}
-          />
+          >
+            <Stack.Screen
+            name='index'
+            />
+            <Stack.Screen
+            name='calendar'
+            options={{
+              presentation: "transparentModal",
+              animation: "fade",
+              headerShown: false
+            }}
+            />
+          </Stack>
           <StatusBar style="auto" backgroundColor={theme.surface} />
         </ActiveCompContextProvider>
       </KeyboardProvider>

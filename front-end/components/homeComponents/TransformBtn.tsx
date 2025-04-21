@@ -2,7 +2,7 @@ import { Pressable } from "react-native"
 import { AnimThemedText, ThemedText } from "../ThemedText"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { gls } from "@/app/_layout";
-import Animated, { interpolate, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { interpolate, interpolateColor, LinearTransition, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import React from "react";
 
 export function TransformBtn(props: {disabled: boolean}) {
@@ -37,7 +37,10 @@ export function TransformBtn(props: {disabled: boolean}) {
     }, [props.disabled])
 
     return (
-        <Animated.View style={[activeBtn, gls.width100, gls.centerAll, gls.br, {overflow: 'hidden'}]}>
+        <Animated.View
+        layout={LinearTransition.duration(250)}
+        style={[activeBtn, gls.width100, gls.centerAll, gls.br, {overflow: 'hidden'}]}
+        >
             <Pressable 
             style={({pressed}) => [gls.width100, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
             disabled={props.disabled}
