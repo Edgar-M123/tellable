@@ -8,6 +8,7 @@ import Animated, { LinearTransition, FadeIn, FadeOut } from "react-native-reanim
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from "expo-router";
 import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { getDateString, getTodayString, getYesterdayString } from "@/utils/dateUtils";
 
 export function StoryDateSelect() {
 
@@ -44,13 +45,13 @@ export function StoryDateSelect() {
                 style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer, 
                     (storyDate == new Date().toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
                 ]}
-                onPress={() => setStoryDate(new Date().toJSON().slice(0, 10))}
+                onPress={() => setStoryDate(getTodayString())}
                 >
                     <ThemedText 
                     type="small" 
                     style={[
                         {color: theme.onSurfaceWeakest},
-                        (storyDate == new Date().toJSON().slice(0, 10)) && {color: theme.onSurface}
+                        (storyDate == getTodayString()) && {color: theme.onSurface}
                     ]}
                     >
                         Today
@@ -59,15 +60,15 @@ export function StoryDateSelect() {
 
                 <Pressable 
                 style={[gls.circle, styles.btn, thmStyle.bgSurfaceContainer, 
-                    (storyDate == new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)) && {backgroundColor: theme.secondary}
+                    (storyDate == getYesterdayString()) && {backgroundColor: theme.secondary}
                 ]}
-                onPress={() => setStoryDate(new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10))}
+                onPress={() => setStoryDate(getYesterdayString())}
                 >
                     <ThemedText 
                     type="small"
                     style={[
                         {color: theme.onSurfaceWeakest},
-                        (storyDate == new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)) && {color: theme.onSurface}
+                        (storyDate == getYesterdayString()) && {color: theme.onSurface}
                     ]}
                     >
                         Yesterday
