@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { gls } from './_layout';
 import { useAppTheme } from '@/hooks/useAppTheme';
@@ -14,6 +14,7 @@ import { ActiveCompContext, ActiveCompContextValues } from './_layout';
 import Animated, { FadeIn, FadeOut, LinearTransition } from 'react-native-reanimated';
 import { BottomTab } from '@/components/homeComponents/BottomTab';
 import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -27,6 +28,7 @@ export default function HomeScreen() {
 
 
   return (
+    <SafeAreaView style={[gls.f1, gls.height100, gls.width100]} edges={Platform.select({ios: ["bottom"], android: []})}>
       <Animated.View 
       layout={LinearTransition.duration(250)}
       style={[gls.f1, gls.height100, gls.width100, thmStyle.bgSurface, {alignItems: "center", padding: 14}]}
@@ -68,5 +70,6 @@ export default function HomeScreen() {
         )}
       
       </Animated.View>
+    </SafeAreaView>
   );
 }
