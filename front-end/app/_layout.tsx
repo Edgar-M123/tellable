@@ -10,8 +10,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import {KeyboardProvider} from 'react-native-keyboard-controller'
 import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
+import { getApp } from '@react-native-firebase/app';
 
 export const ActiveCompContext = React.createContext({})
+
 
 export interface ActiveCompContextValues {
   activeComp: "story" | "search" | null;
@@ -31,7 +33,6 @@ export function ActiveCompContextProvider(props: {children: any}) {
     </ActiveCompContext.Provider>
   )
 }
-
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

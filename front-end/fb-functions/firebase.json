@@ -2,6 +2,7 @@
   "functions": [
     {
       "source": "functions",
+      "runtime": "python312",
       "codebase": "default",
       "ignore": [
         "venv",
@@ -11,5 +12,11 @@
         "*.local"
       ]
     }
-  ]
+  ],
+  "emulators": {
+    "functions": {
+      "host": "192.168.2.13",
+      "port": 5001
+    }
+  }
 }

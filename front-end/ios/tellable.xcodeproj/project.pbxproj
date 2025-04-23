@@ -14,9 +14,10 @@
 		96905EF65AED1B983A6B3ABC /* libPods-tellable.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-tellable.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		FFCB6B098B924C6099344520 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75F7524363641E7825C5C92 /* noop-file.swift */; };
-		E5573C3147E44C68AD08D28D /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC1674AD7430456BB358A3C8 /* Merriweather-Regular.ttf */; };
-		D2F304375BF447F081F7927E /* Merriweather-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA468C04A4BF4273BF6A46E6 /* Merriweather-Bold.ttf */; };
+		9CA1FB02112D4BCCA16455C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9492CF068CD446CA96877252 /* GoogleService-Info.plist */; };
+		14C31B83002548669AF58B84 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CB187D99B4FC1BD195347 /* noop-file.swift */; };
+		931B0E048A914BABA91E5364 /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C74570673FC7411FA0B75348 /* Merriweather-Regular.ttf */; };
+		845D5B19D1484294879C7BED /* Merriweather-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E5BAA376C614551B950C532 /* Merriweather-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +34,11 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-tellable/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		B75F7524363641E7825C5C92 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "tellable/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
-		E284E4CBB8A24EB1812BC941 /* tellable-Bridging-Header.h */ = {isa = PBXFileReference; name = "tellable-Bridging-Header.h"; path = "tellable/tellable-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		FC1674AD7430456BB358A3C8 /* Merriweather-Regular.ttf */ = {isa = PBXFileReference; name = "Merriweather-Regular.ttf"; path = "../assets/fonts/Merriweather-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EA468C04A4BF4273BF6A46E6 /* Merriweather-Bold.ttf */ = {isa = PBXFileReference; name = "Merriweather-Bold.ttf"; path = "../assets/fonts/Merriweather-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9492CF068CD446CA96877252 /* GoogleService-Info.plist */ = {isa = PBXFileReference; name = "GoogleService-Info.plist"; path = "tellable/GoogleService-Info.plist"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = text.plist.xml; explicitFileType = undefined; includeInIndex = 0; };
+		BF8CB187D99B4FC1BD195347 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "tellable/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		2562C2E2793E4C00B198CA0E /* tellable-Bridging-Header.h */ = {isa = PBXFileReference; name = "tellable-Bridging-Header.h"; path = "tellable/tellable-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		C74570673FC7411FA0B75348 /* Merriweather-Regular.ttf */ = {isa = PBXFileReference; name = "Merriweather-Regular.ttf"; path = "../assets/fonts/Merriweather-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4E5BAA376C614551B950C532 /* Merriweather-Bold.ttf */ = {isa = PBXFileReference; name = "Merriweather-Bold.ttf"; path = "../assets/fonts/Merriweather-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +63,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				B75F7524363641E7825C5C92 /* noop-file.swift */,
-				E284E4CBB8A24EB1812BC941 /* tellable-Bridging-Header.h */,
+				9492CF068CD446CA96877252 /* GoogleService-Info.plist */,
+				BF8CB187D99B4FC1BD195347 /* noop-file.swift */,
+				2562C2E2793E4C00B198CA0E /* tellable-Bridging-Header.h */,
 			);
 			name = tellable;
 			sourceTree = "<group>";
@@ -92,7 +95,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
-				6BE07E36498D4C31B79E10EE /* Resources */,
+				C17CD85362834B378C322AE3 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -141,11 +144,11 @@
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
-		6BE07E36498D4C31B79E10EE /* Resources */ = {
+		C17CD85362834B378C322AE3 /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				FC1674AD7430456BB358A3C8 /* Merriweather-Regular.ttf */,
-				EA468C04A4BF4273BF6A46E6 /* Merriweather-Bold.ttf */,
+				C74570673FC7411FA0B75348 /* Merriweather-Regular.ttf */,
+				4E5BAA376C614551B950C532 /* Merriweather-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -213,9 +216,10 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				FDE6CE0EEEDC4623B82C682D /* tellable-Bridging-Header.h in Resources */,
-				E5573C3147E44C68AD08D28D /* Merriweather-Regular.ttf in Resources */,
-				D2F304375BF447F081F7927E /* Merriweather-Bold.ttf in Resources */,
+				9CA1FB02112D4BCCA16455C9 /* GoogleService-Info.plist in Resources */,
+				B9DA40086188476E9ED03EB4 /* tellable-Bridging-Header.h in Resources */,
+				931B0E048A914BABA91E5364 /* Merriweather-Regular.ttf in Resources */,
+				845D5B19D1484294879C7BED /* Merriweather-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +295,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				FFCB6B098B924C6099344520 /* noop-file.swift in Sources */,
+				14C31B83002548669AF58B84 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +328,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				SWIFT_OBJC_BRIDGING_HEADER = tellable/tellable-Bridging-Header.h;
 				CODE_SIGN_ENTITLEMENTS = tellable/tellable.entitlements;
 			};
@@ -350,7 +354,7 @@
 				PRODUCT_NAME = "tellable";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1";
 				SWIFT_OBJC_BRIDGING_HEADER = tellable/tellable-Bridging-Header.h;
 				CODE_SIGN_ENTITLEMENTS = tellable/tellable.entitlements;
 			};

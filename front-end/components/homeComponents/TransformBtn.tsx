@@ -4,10 +4,13 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import { gls } from "@/app/_layout";
 import Animated, { interpolate, interpolateColor, LinearTransition, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import React from "react";
+import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { transformStoryRequest } from "@/utils/transformUtils";
 
 export function TransformBtn(props: {disabled: boolean}) {
 
     const {theme, thmStyle} = useAppTheme()
+    const {storyText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
 
     const activeProg = useSharedValue(0)
 
@@ -28,6 +31,12 @@ export function TransformBtn(props: {disabled: boolean}) {
         ),
     }))
 
+    const transformStory = React.useCallback(async () => {
+        const newStory = await transformStoryRequest(storyText); 
+        console.log("StoryData: ", newStory);
+        console.log("Story: ", newStory.story);
+    }, [storyText])
+
     React.useEffect(() => {
 
         props.disabled
@@ -44,6 +53,7 @@ export function TransformBtn(props: {disabled: boolean}) {
             <Pressable 
             style={({pressed}) => [gls.width100, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
             disabled={props.disabled}
+            onPress={transformStory}
             >
                 <AnimThemedText style={[activeText]}>Transform your story</AnimThemedText>
             </Pressable>

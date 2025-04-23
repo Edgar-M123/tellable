@@ -17,3 +17,18 @@ export interface StoryPreview {
     date: Date;
     tags: string[];
 }
+
+
+export interface TransformStoryResponseSuccess {
+    title: string;
+    story: string;
+    tags: string[];
+    emotions: string[];
+    searchable_text: string;
+}
+
+export interface TransformStoryResponseError {
+    error: string;
+    message: string;
+    status: number;
+}

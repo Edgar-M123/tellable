@@ -1,0 +1,50 @@
+import { TransformStoryResponseError, TransformStoryResponseSuccess } from "@/typing/appTypes";
+import functions from '@react-native-firebase/functions'
+
+export async function transformStoryRequest(storyText: string): Promise<TransformStoryResponseSuccess> {
+
+    console.log("Running FB function")
+
+    // try {
+    //     const response = await fetch(
+    //         "http://192.168.2.13:5001/tellable-a2659/us-central1/gemini_text_processor",
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({storyText})
+    //         }
+    //     )
+    
+    //     if (!response.ok) {
+    //         const errorData: TransformStoryResponseError = await response.json()
+    //         throw new Error(`Story transformation failed due to: ${errorData.message || response.statusText}`); 
+    //     }
+    
+    //     const response_parsed: TransformStoryResponseSuccess = await response.json()
+    //     return response_parsed
+    // } catch (error) {
+    //     console.error("Failed to process text", error);
+    //     throw error
+    // }
+
+    // if (process.env.NODE_ENV != "production") {
+    //     functions().useEmulator("192.168.2.13", 5001)
+    // }
+
+    // const fnRef = functions().httpsCallable("gemini_text_processor")
+    const fnRef = functions().httpsCallableFromUrl("https://gemini-text-processor-bgp5jn2geq-uc.a.run.app")
+
+    try {
+        const response = await fnRef(storyText)
+        console.log("Received FB Function response: ", response)
+        const parsed = response.data as TransformStoryResponseSuccess
+        return parsed
+    } catch (error) {
+        console.error(error)
+        throw error
+    }
+
+
+}
