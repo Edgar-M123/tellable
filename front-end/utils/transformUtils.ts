@@ -1,5 +1,6 @@
-import { TransformStoryResponseError, TransformStoryResponseSuccess } from "@/typing/appTypes";
+import { Story, TransformStoryResponseError, TransformStoryResponseSuccess } from "@/typing/appTypes";
 import functions from '@react-native-firebase/functions'
+import * as Storage from 'expo-sqlite/kv-store'
 
 export async function transformStoryRequest(storyText: string): Promise<TransformStoryResponseSuccess> {
 
@@ -46,5 +47,29 @@ export async function transformStoryRequest(storyText: string): Promise<Transfor
         throw error
     }
 
+
+}
+
+
+
+export async function transformStoryFn(storyText: string, storyDate: string) {
+
+    const storyData = await transformStoryRequest(storyText)
+
+    // verify data like maybe they got additional tags that arent included in free tier
+    const verifiedData = storyData
+
+    // store data
+    const finalStory: Story = {
+        id: crypto.randomUUID(),
+        title: verifiedData.title,
+        date: storyDate,
+        tags: verifiedData.tags,
+        origNotes: storyText,
+        storyText: verifiedData.story,
+        searchable_text: verifiedData.searchable_text
+    }
+
+    Storage.setItemSync(finalStory.id, JSON.stringify(finalStory))
 
 }

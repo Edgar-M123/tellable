@@ -5145,6 +5145,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-sqlite@npm:~15.1.4":
+  version: 15.1.4
+  resolution: "expo-sqlite@npm:15.1.4"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/87b8976ecc68aca2de681a89e57d5524b48b9b2e5d8ae602b314b24633a779d3036e41e7ef95b5c3d2e4ec89cc238cd3a7da6ceef970464a5576ec1dadd0fa07
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:~2.0.1":
   version: 2.0.1
   resolution: "expo-status-bar@npm:2.0.1"
@@ -10044,6 +10055,7 @@ __metadata:
     expo-linking: "npm:~7.0.5"
     expo-router: "npm:~4.0.20"
     expo-splash-screen: "npm:~0.29.24"
+    expo-sqlite: "npm:~15.1.4"
     expo-status-bar: "npm:~2.0.1"
     expo-symbols: "npm:~0.2.2"
     expo-system-ui: "npm:^4.0.9"

@@ -3,10 +3,11 @@
 export interface Story {
     id: string;
     title: string;
-    date: Date;
+    date: string;
     tags: string[];
     origNotes: string;
     storyText: string;
+    searchable_text: string;
 }
 
 
@@ -14,7 +15,7 @@ export interface Story {
 export interface StoryPreview {
     id: string;
     title: string;
-    date: Date;
+    date: string;
     tags: string[];
 }
 
