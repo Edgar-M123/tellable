@@ -1,7 +1,6 @@
 import React from 'react';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,7 +9,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import {KeyboardProvider} from 'react-native-keyboard-controller'
 import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
-import { getApp } from '@react-native-firebase/app';
+import {SQLiteProvider} from 'expo-sqlite'
+import { migrateDbIfNeeded } from '@/utils/dbUtils';
 
 export const ActiveCompContext = React.createContext({})
 
@@ -43,26 +43,31 @@ export default function RootLayout() {
       <KeyboardProvider>
         <ActiveCompContextProvider>
           <CreateStoryContextProvider>
-            <Stack
-            screenOptions={{
-              headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
-              headerStyle: {backgroundColor: theme.surface},
-              headerShadowVisible: false
-            }}
-            >
-              <Stack.Screen
-              name='index'
-              />
-              <Stack.Screen
-              name='calendar'
-              options={{
-                presentation: "transparentModal",
-                animation: "fade",
-                headerShown: false
+            <SQLiteProvider databaseName={'tellable.db'} onInit={migrateDbIfNeeded}>
+              <Stack
+              screenOptions={{
+                headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
+                headerStyle: {backgroundColor: theme.surface},
+                headerShadowVisible: false
               }}
-              />
-            </Stack>
-            <StatusBar style="auto" backgroundColor={theme.surface} />
+              >
+                <Stack.Screen
+                name='index'
+                />
+                <Stack.Screen
+                name='newStory'
+                />
+                <Stack.Screen
+                name='calendar'
+                options={{
+                  presentation: "transparentModal",
+                  animation: "fade",
+                  headerShown: false
+                }}
+                />
+              </Stack>
+              <StatusBar style="auto" backgroundColor={theme.surface} />
+            </SQLiteProvider>
           </CreateStoryContextProvider>
         </ActiveCompContextProvider>
       </KeyboardProvider>

@@ -1,6 +1,8 @@
-import { Story, TransformStoryResponseError, TransformStoryResponseSuccess } from "@/typing/appTypes";
+import { Story, StoryRaw, TransformStoryResponseError, TransformStoryResponseSuccess } from "@/typing/appTypes";
 import functions from '@react-native-firebase/functions'
-import * as Storage from 'expo-sqlite/kv-store'
+import * as sqlite from 'expo-sqlite/kv-store'
+import { saveStoryAsync } from "./dbUtils";
+import { SQLiteDatabase } from "expo-sqlite";
 
 export async function transformStoryRequest(storyText: string): Promise<TransformStoryResponseSuccess> {
 
@@ -52,7 +54,7 @@ export async function transformStoryRequest(storyText: string): Promise<Transfor
 
 
 
-export async function transformStoryFn(storyText: string, storyDate: string) {
+export async function transformStoryFn(db: SQLiteDatabase, storyText: string, storyDate: string) {
 
     const storyData = await transformStoryRequest(storyText)
 
@@ -60,16 +62,15 @@ export async function transformStoryFn(storyText: string, storyDate: string) {
     const verifiedData = storyData
 
     // store data
-    const finalStory: Story = {
-        id: crypto.randomUUID(),
+    const finalStory: StoryRaw = {
         title: verifiedData.title,
         date: storyDate,
         tags: verifiedData.tags,
+        emotions: verifiedData.emotions,
         origNotes: storyText,
         storyText: verifiedData.story,
         searchable_text: verifiedData.searchable_text
     }
 
-    Storage.setItemSync(finalStory.id, JSON.stringify(finalStory))
-
+    return finalStory
 }

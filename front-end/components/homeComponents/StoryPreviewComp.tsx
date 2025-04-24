@@ -25,7 +25,7 @@ export function StoryPreviewComp(props: {data: StoryPreview}) {
         <View style={[gls.width100, gls.br, styles.container]}>
 
             <ThemedText type="bold">{props.data.title}</ThemedText>
-            <ThemedText style={{color: theme.onSurfaceWeak}} type="small">{props.data.date.toDateString()}</ThemedText>
+            <ThemedText style={{color: theme.onSurfaceWeak}} type="small">{props.data.date}</ThemedText>
 
 
         </View>

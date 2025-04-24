@@ -4,7 +4,7 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import React, { SetStateAction, Dispatch } from "react";
 import { KeyboardEvents } from "react-native-keyboard-controller";
 import Animated, {useAnimatedStyle, interpolateColor, useSharedValue, withTiming} from "react-native-reanimated";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
 
 export function StoryInput() {
@@ -12,7 +12,7 @@ export function StoryInput() {
     const {theme} = useAppTheme()
     const storyTIRef = React.useRef<TextInput>(null)
     const {setActiveComp, showCalendar} = React.useContext(ActiveCompContext) as ActiveCompContextValues
-    const {setStoryText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {storyText, setStoryText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
 
     const [tiHeight, setTIHeight] = React.useState(100)
     
@@ -68,8 +68,6 @@ export function StoryInput() {
 
     }, [])
 
-
-
     return (
       <TouchableWithoutFeedback onPress={() => storyTIRef.current?.focus()}>
         <Animated.View 
@@ -80,6 +78,7 @@ export function StoryInput() {
           style={[gls.width100, gls.fntFam, {maxHeight: "100%", height: tiHeight, color: theme.onSurface}]}
           placeholder='Example: Met someone interesting at the coffee shop today. They spilled their drink on me...'
           placeholderTextColor={theme.onSurfaceWeakest}
+          defaultValue={storyText}
           onChangeText={(text) => setStoryText(text)}
           textAlignVertical="top"
           multiline={true}
