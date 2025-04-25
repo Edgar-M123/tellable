@@ -8,6 +8,7 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import Animated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanimated";
 import { StoryDateSelect } from "./StoryDateSelect";
 import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { CompTab } from "./CompTab";
 
 
 
@@ -32,7 +33,7 @@ export function CreateStorySxn() {
             layout={LinearTransition.duration(250)}
             entering={FadeIn.duration(250)}
             exiting={FadeOut.duration(250)}
-            style={[gls.shrink, gls.width100, thmStyle.bgSurface, {maxHeight: "50%", padding: 10, gap: 10}]}
+            style={[gls.f1, gls.shrink, gls.width100, thmStyle.bgSurface, {justifyContent: "space-evenly", maxHeight: "50%", paddingTop: 10, gap: 10}]}
             >
                 <View>
                     <ThemedText type='title'>What happened today?</ThemedText>
@@ -41,6 +42,7 @@ export function CreateStorySxn() {
                 <StoryInput />
                 {activeComp && <StoryDateSelect />}
                 <TransformBtn disabled={disabled} />
+                {activeComp && <CompTab />}
                 
             </Animated.View>
     )

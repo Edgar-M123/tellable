@@ -1,3 +1,4 @@
+import { getTodayString } from "@/utils/dateUtils";
 import React, {Dispatch, SetStateAction} from "react";
 
 
@@ -13,7 +14,7 @@ export interface CreateStoryContextValues {
 export function CreateStoryContextProvider(props: {children: any}) {
 
     const [storyText, setStoryText] = React.useState("")
-    const [storyDate, setStoryDate] = React.useState<string>(new Date().toJSON().slice(0, 10))
+    const [storyDate, setStoryDate] = React.useState<string>(getTodayString())
 
     const values = {
         storyText,

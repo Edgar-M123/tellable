@@ -22,6 +22,13 @@ export interface ActiveCompContextValues {
   setShowCalendar:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+export function useActiveCompContext() {
+
+  const context = React.useContext(ActiveCompContext) as ActiveCompContextValues
+
+  return context
+}
+
 export function ActiveCompContextProvider(props: {children: any}) {
 
   const [activeComp, setActiveComp] = React.useState<"story" | "search" | null>(null)

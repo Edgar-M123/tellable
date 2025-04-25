@@ -1,15 +1,17 @@
-import { TextInput, StyleSheet, TouchableWithoutFeedback, BackHandler, Keyboard } from "react-native"
+import { TextInput, StyleSheet, TouchableWithoutFeedback, BackHandler, Keyboard, View, Pressable } from "react-native"
 import { ActiveCompContext, ActiveCompContextValues, gls } from "@/app/_layout"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import React, { SetStateAction, Dispatch } from "react";
 import { KeyboardEvents } from "react-native-keyboard-controller";
 import Animated, {useAnimatedStyle, interpolateColor, useSharedValue, withTiming} from "react-native-reanimated";
-import { useFocusEffect, useRouter } from "expo-router";
 import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { ThemedText } from "../ThemedText";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Fontisto from '@expo/vector-icons/Fontisto';
 
 export function StoryInput() {
 
-    const {theme} = useAppTheme()
+    const {theme, thmStyle} = useAppTheme()
     const storyTIRef = React.useRef<TextInput>(null)
     const {setActiveComp, showCalendar} = React.useContext(ActiveCompContext) as ActiveCompContextValues
     const {storyText, setStoryText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
@@ -30,10 +32,17 @@ export function StoryInput() {
       activeProg.value = withTiming(1, {duration: 250})
       setActiveComp("story")
     }, [])
+
     const deactivate = React.useCallback(() => {
       activeProg.value = withTiming(0, {duration: 250})
       setActiveComp(null)
     }, [])
+
+    const clearText = React.useCallback(() => {
+      storyTIRef.current?.clear();
+      setStoryText("")
+    }, [])
+
 
     function changeTIHeight(newHeight: number) {
       newHeight > tiHeight && setTIHeight(newHeight);
@@ -71,11 +80,11 @@ export function StoryInput() {
     return (
       <TouchableWithoutFeedback onPress={() => storyTIRef.current?.focus()}>
         <Animated.View 
-        style={[gls.shrink, gls.br, gls.width100, styles.storyTI, activeStyle]}
+        style={[gls.shrink, gls.br, gls.width100, styles.inputContainer, activeStyle]}
         >
           <TextInput
           ref={storyTIRef}
-          style={[gls.width100, gls.fntFam, {maxHeight: "100%", height: tiHeight, color: theme.onSurface}]}
+          style={[gls.width100, gls.shrink, gls.fntFam, {maxHeight: "100%", height: tiHeight, color: theme.onSurface}]}
           placeholder='Example: Met someone interesting at the coffee shop today. They spilled their drink on me...'
           placeholderTextColor={theme.onSurfaceWeakest}
           defaultValue={storyText}
@@ -86,6 +95,15 @@ export function StoryInput() {
           onBlur={deactivate}
           onContentSizeChange={({nativeEvent}) => changeTIHeight(nativeEvent.contentSize.height)}
           />
+          <View style={[gls.width100, gls.rows, {paddingTop: 5}]}>
+            <Pressable 
+            style={({pressed}) => [gls.rows, gls.circle, gls.centerAll, styles.clearBtn, pressed && thmStyle.bgSurfaceHover]}
+            onPress={clearText}
+            >
+              <Fontisto name="undo" size={14} style={{paddingBottom: 3}} color={theme.onSurfaceWeak} />
+              <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Clear</ThemedText>
+            </Pressable>
+          </View>
         </Animated.View>
       </TouchableWithoutFeedback>
     )
@@ -93,10 +111,15 @@ export function StoryInput() {
 
 const styles = StyleSheet.create({
 
-  storyTI: {
+  inputContainer: {
     padding: 10, 
     borderWidth: 1, 
     minHeight: 100,
+  },
+  clearBtn: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    gap: 5
   }
 
 })

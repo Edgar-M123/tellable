@@ -17,6 +17,7 @@ import { StoryPreview } from '@/typing/appTypes';
 import { useFocusEffect } from 'expo-router';
 import { getStoryPreviewsAsync } from '@/utils/dbUtils';
 import { useSQLiteContext } from 'expo-sqlite';
+import { CompTab } from '@/components/homeComponents/CompTab';
 
 
 
@@ -35,7 +36,7 @@ export default function HomeScreen() {
 
   }, [])
 
-  useFocusEffect(React.useCallback(() => fetchRecent, []))
+  useFocusEffect(React.useCallback(() => {console.log("Running focus function"); fetchRecent()}, []))
 
   return (
     <SafeAreaView style={[gls.f1, gls.height100, gls.width100]} edges={Platform.select({ios: ["bottom"], android: []})}>
@@ -48,13 +49,13 @@ export default function HomeScreen() {
           layout={LinearTransition.duration(250)}
           entering={FadeIn.duration(250)} 
           exiting={FadeOut.duration(250)} 
-          style={[gls.width100, {alignItems: "center"}]}
+          style={[gls.f1, gls.width100, {maxHeight: "50%", justifyContent: "space-evenly", alignItems: "center"}]}
           >
-            <View style={[gls.width100, {paddingVertical: 10}]}>
+            <View style={[gls.width100, {paddingVertical: 10, gap: 10}]}>
               <ThemedText style={{color: theme.onSurfaceWeak}}>Find your stories</ThemedText>
+              <SearchBar ref={searchTIRef} />
             </View>
 
-            <SearchBar ref={searchTIRef} />
 
             <View style={[gls.width100, {paddingVertical: 10}]}>
               <ThemedText style={{color: theme.onSurfaceWeak}}>Recent</ThemedText>
@@ -62,8 +63,10 @@ export default function HomeScreen() {
               data={recentStories}
               renderItem={({item}) => <StoryPreviewComp data={item}/>}
               contentContainerStyle={{gap: 10}}
+              ListEmptyComponent={() => <ThemedText type='small' style={[gls.width100, {color: theme.onSurfaceWeakest, textAlign: "center"}]}>No stories yet. Add one below!</ThemedText>}
               />
             </View>
+            {activeComp == "search" && <CompTab />}
           </Animated.View>
         )}
 

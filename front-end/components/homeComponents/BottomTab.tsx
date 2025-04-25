@@ -1,12 +1,11 @@
-import { gls } from "@/app/_layout";
+import { gls, useActiveCompContext } from "@/app/_layout";
 import { Pressable, TextInput, View } from "react-native";
 import { ThemedText } from "../ThemedText";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { RefObject } from "react";
+import React, { RefObject } from "react";
 import Animated, { FadeIn } from "react-native-reanimated";
-
 
 
 export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
@@ -14,7 +13,7 @@ export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
     const {theme, thmStyle} = useAppTheme()
 
     return (
-        <Animated.View entering={FadeIn.duration(250)} style={[gls.width100, gls.rows, gls.centerAll, {paddingBottom: 10, position: "absolute", zIndex: 999, bottom: 0}]}>
+        <Animated.View entering={FadeIn.duration(250)} style={[gls.width100, gls.rows, gls.centerAll, {position: "relative", zIndex: 999, bottom: 0}]}>
 
             <View style={[gls.f1, gls.centerAll]}>
                 <Pressable style={[gls.circle, gls.centerAll, {borderWidth: 1, paddingHorizontal: 10, paddingVertical: 5, borderColor: theme.accent}]}>
