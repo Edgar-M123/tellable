@@ -74,3 +74,11 @@ export async function transformStoryFn(db: SQLiteDatabase, storyText: string, st
 
     return finalStory
 }
+
+export async function createStory(db: SQLiteDatabase, text: string, date: string) {
+
+    console.log("Creating story")
+    const storyRaw = await transformStoryFn(db, text, date)
+    const id = await saveStoryAsync(db, storyRaw)
+    return id
+}

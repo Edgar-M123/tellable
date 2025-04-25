@@ -7,14 +7,14 @@ import React from "react";
 import Animated, { LinearTransition, FadeIn, FadeOut } from "react-native-reanimated";
 import Feather from '@expo/vector-icons/Feather';
 import { useRouter } from "expo-router";
-import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 import { getDateString, getTodayString, getYesterdayString } from "@/utils/dateUtils";
 
 export function StoryDateSelect() {
 
     const {theme, thmStyle} = useAppTheme()
     const router = useRouter()
-    const {storyDate, setStoryDate} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {storyDate, setStoryDate} = useCreateStoryContext()
 
     return (
         <Animated.View 
@@ -22,8 +22,6 @@ export function StoryDateSelect() {
         entering={FadeIn.duration(250)}
         exiting={FadeOut.duration(250)}
         style={[gls.width100]}>
-
-            <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>What day?</ThemedText>
 
             <Pressable 
             style={({pressed}) => [gls.rows, gls.width100, gls.br, styles.dateContainer, {alignItems: "center", borderColor: theme.surfaceContainer},

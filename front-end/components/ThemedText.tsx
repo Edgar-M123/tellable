@@ -6,7 +6,7 @@ import Animated from 'react-native-reanimated';
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'bold' | 'small';
+  type?: 'default' | 'title' | 'bold' | 'small' | 'smallBold';
 };
 
 export function ThemedText({
@@ -26,6 +26,7 @@ export function ThemedText({
         type === 'title' ? styles.title : undefined,
         type === 'bold' ? styles.defaultBold : undefined,
         type === 'small' ? styles.small : undefined,
+        type === 'smallBold' ? styles.smallBold : undefined,
         style,
       ]}
       {...rest}
@@ -50,6 +51,7 @@ export function AnimThemedText({
         type === 'title' ? styles.title : undefined,
         type === 'bold' ? styles.defaultBold : undefined,
         type === 'small' ? styles.small : undefined,
+        type === 'smallBold' ? styles.smallBold : undefined,
         style,
       ]}
       {...rest}
@@ -78,4 +80,9 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     fontFamily: "Merriweather-Regular"
   },
+  smallBold: {
+    fontSize: 14,
+    lineHeight: 20,
+    fontFamily: "Merriweather-Bold"
+  }
 });

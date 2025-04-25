@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
-import { gls } from './_layout';
+import { gls, useActiveCompContext } from './_layout';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { ThemedText } from '@/components/ThemedText';
 import SearchBar from '@/components/homeComponents/SearchBar';
@@ -18,6 +18,7 @@ import { useFocusEffect } from 'expo-router';
 import { getStoryPreviewsAsync } from '@/utils/dbUtils';
 import { useSQLiteContext } from 'expo-sqlite';
 import { CompTab } from '@/components/homeComponents/CompTab';
+import { PreviewList } from '@/components/homeComponents/PreviewList';
 
 
 
@@ -25,7 +26,7 @@ export default function HomeScreen() {
   
   const db = useSQLiteContext()
   const {theme, thmStyle} = useAppTheme()
-  const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
+  const {activeComp, setActiveComp} = useActiveCompContext()
   const searchTIRef = React.useRef<TextInput>(null)
   const [recentStories, setRecentStories] = React.useState<StoryPreview[] | null>(null)
 
@@ -36,37 +37,31 @@ export default function HomeScreen() {
 
   }, [])
 
-  useFocusEffect(React.useCallback(() => {console.log("Running focus function"); fetchRecent()}, []))
+  useFocusEffect(React.useCallback(() => {fetchRecent()}, []))
 
   return (
-    <SafeAreaView style={[gls.f1, gls.height100, gls.width100]} edges={Platform.select({ios: ["bottom"], android: []})}>
-      <Animated.View 
-      layout={LinearTransition.duration(250)}
-      style={[gls.f1, gls.height100, gls.width100, thmStyle.bgSurface, {alignItems: "center", padding: 14}]}
-      >
+    <SafeAreaView 
+    style={[gls.f1, gls.height100, gls.width100, thmStyle.bgSurface, styles.container]} 
+    edges={Platform.select({ios: ["bottom"], android: []})}
+    >
         {activeComp !== "story" && (
           <Animated.View 
-          layout={LinearTransition.duration(250)}
+          // layout={LinearTransition.duration(250)}
           entering={FadeIn.duration(250)} 
           exiting={FadeOut.duration(250)} 
           style={[gls.f1, gls.width100, {maxHeight: "50%", justifyContent: "space-evenly", alignItems: "center"}]}
           >
-            <View style={[gls.width100, {paddingVertical: 10, gap: 10}]}>
+            <Animated.View 
+            layout={LinearTransition.duration(250)}
+            style={[gls.width100, {paddingVertical: 10, gap: 10}]}
+            >
               <ThemedText style={{color: theme.onSurfaceWeak}}>Find your stories</ThemedText>
               <SearchBar ref={searchTIRef} />
-            </View>
+            </Animated.View>
 
 
-            <View style={[gls.width100, {paddingVertical: 10}]}>
-              <ThemedText style={{color: theme.onSurfaceWeak}}>Recent</ThemedText>
-              <FlatList
-              data={recentStories}
-              renderItem={({item}) => <StoryPreviewComp data={item}/>}
-              contentContainerStyle={{gap: 10}}
-              ListEmptyComponent={() => <ThemedText type='small' style={[gls.width100, {color: theme.onSurfaceWeakest, textAlign: "center"}]}>No stories yet. Add one below!</ThemedText>}
-              />
-            </View>
-            {activeComp == "search" && <CompTab />}
+            <PreviewList stories={recentStories} />
+            {activeComp == "search" && Platform.OS == "ios" && <CompTab />}
           </Animated.View>
         )}
 
@@ -82,7 +77,13 @@ export default function HomeScreen() {
           <BottomTab searchRef={searchTIRef} />
         )}
       
-      </Animated.View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    padding: 14
+  }
+})

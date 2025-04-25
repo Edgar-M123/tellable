@@ -28,9 +28,11 @@ export function getDateString(date?: string | Date) {
 }
 
 export function getTodayString() {
-    return new Date().toJSON().slice(0, 10)
+    const date = new Date().toJSON().slice(0, 10)
+    return date
 }
 
 export function getYesterdayString() {
-    return new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)
+    const date = new Date(new Date().setDate(new Date().getDate()-1)).toJSON().slice(0, 10)
+    return date
 }

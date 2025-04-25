@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react"
-import { View } from "react-native"
+import { Platform, View } from "react-native"
 import { ThemedText } from "../ThemedText"
 import { TransformBtn } from "./TransformBtn"
 import { StoryInput } from "./StoryInput"
@@ -7,7 +7,7 @@ import { ActiveCompContext, ActiveCompContextValues, gls } from "@/app/_layout"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import Animated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanimated";
 import { StoryDateSelect } from "./StoryDateSelect";
-import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 import { CompTab } from "./CompTab";
 
 
@@ -18,7 +18,7 @@ export function CreateStorySxn() {
     const {activeComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
 
     const [disabled, setDisabled] = React.useState(true)
-    const {storyText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {storyText} = useCreateStoryContext()
 
     React.useEffect(() => {
     
@@ -42,7 +42,7 @@ export function CreateStorySxn() {
                 <StoryInput />
                 {activeComp && <StoryDateSelect />}
                 <TransformBtn disabled={disabled} />
-                {activeComp && <CompTab />}
+                {activeComp && Platform.OS == "ios" && <CompTab />}
                 
             </Animated.View>
     )

@@ -4,15 +4,17 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import { gls } from "@/app/_layout";
 import Animated, { interpolate, interpolateColor, LinearTransition, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import React from "react";
-import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
-import { transformStoryRequest } from "@/utils/transformUtils";
+import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
+import { createStory, transformStoryRequest } from "@/utils/transformUtils";
 import { useRouter } from "expo-router";
 import { getTodayString } from "@/utils/dateUtils";
+import { useSQLiteContext } from "expo-sqlite";
 
 export function TransformBtn(props: {disabled: boolean}) {
 
+    const db = useSQLiteContext()
     const {theme, thmStyle} = useAppTheme()
-    const {storyText, setStoryText, storyDate, setStoryDate} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {storyText, setStoryText, storyDate, setStoryDate} = useCreateStoryContext()
     const router = useRouter()
 
     const activeProg = useSharedValue(0)
@@ -34,10 +36,11 @@ export function TransformBtn(props: {disabled: boolean}) {
         ),
     }))
 
-    const goToNewStory = React.useCallback(async () => {
-        router.navigate({pathname: "/newStory", params: {text: storyText, storyDate}})
+    const transformFn = React.useCallback(async () => {
+        const id = await createStory(db, storyText, storyDate)
         setStoryText("")
         setStoryDate(getTodayString())
+        router.navigate(`/newStory?id=${id}`)
     }, [storyText, storyDate])
 
     React.useEffect(() => {
@@ -56,7 +59,7 @@ export function TransformBtn(props: {disabled: boolean}) {
             <Pressable 
             style={({pressed}) => [gls.width100, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
             disabled={props.disabled}
-            onPress={goToNewStory}
+            onPress={transformFn}
             >
                 <AnimThemedText style={[activeText]}>Transform your story</AnimThemedText>
             </Pressable>

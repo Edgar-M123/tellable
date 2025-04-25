@@ -2,6 +2,7 @@ import { View } from "react-native"
 import { ThemedText } from "../ThemedText"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { StoryRaw } from "@/typing/appTypes";
+import { gls } from "@/app/_layout";
 
 
 function TitleLoaded(props: {storyData: StoryRaw}) {
@@ -10,7 +11,7 @@ function TitleLoaded(props: {storyData: StoryRaw}) {
     
     return (
         
-        <View>
+        <View style={[gls.width100, {alignItems: "flex-start"}]}>
             <ThemedText type='title'>{props.storyData.title}</ThemedText>
             <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>{props.storyData.date}</ThemedText>
         </View>

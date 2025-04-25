@@ -1,10 +1,10 @@
 import { TextInput, StyleSheet, TouchableWithoutFeedback, BackHandler, Keyboard, View, Pressable } from "react-native"
-import { ActiveCompContext, ActiveCompContextValues, gls } from "@/app/_layout"
+import { ActiveCompContext, ActiveCompContextValues, gls, useActiveCompContext } from "@/app/_layout"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import React, { SetStateAction, Dispatch } from "react";
 import { KeyboardEvents } from "react-native-keyboard-controller";
-import Animated, {useAnimatedStyle, interpolateColor, useSharedValue, withTiming} from "react-native-reanimated";
-import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import Animated, {useAnimatedStyle, interpolateColor, useSharedValue, withTiming, LinearTransition} from "react-native-reanimated";
+import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 import { ThemedText } from "../ThemedText";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Fontisto from '@expo/vector-icons/Fontisto';
@@ -13,28 +13,19 @@ export function StoryInput() {
 
     const {theme, thmStyle} = useAppTheme()
     const storyTIRef = React.useRef<TextInput>(null)
-    const {setActiveComp, showCalendar} = React.useContext(ActiveCompContext) as ActiveCompContextValues
-    const {storyText, setStoryText} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {setActiveComp, showCalendar} = useActiveCompContext()
+    const {storyText, setStoryText} = useCreateStoryContext()
+    const [focused, setFocused] = React.useState(false)
 
     const [tiHeight, setTIHeight] = React.useState(100)
     
-    const activeProg = useSharedValue(0)
-
-    const activeStyle = useAnimatedStyle(() => ({
-      borderColor: interpolateColor(
-        activeProg.value,
-        [0, 1],
-        [theme.secondary, theme.primary]
-      ),
-    }))
-      
     const activate = React.useCallback(() => {
-      activeProg.value = withTiming(1, {duration: 250})
+      setFocused(true)
       setActiveComp("story")
     }, [])
 
     const deactivate = React.useCallback(() => {
-      activeProg.value = withTiming(0, {duration: 250})
+      setFocused(false)
       setActiveComp(null)
     }, [])
 
@@ -79,8 +70,12 @@ export function StoryInput() {
 
     return (
       <TouchableWithoutFeedback onPress={() => storyTIRef.current?.focus()}>
-        <Animated.View 
-        style={[gls.shrink, gls.br, gls.width100, styles.inputContainer, activeStyle]}
+        <Animated.View
+        layout={LinearTransition.duration(250)} 
+        style={[
+          gls.shrink, gls.br, gls.width100, styles.inputContainer, 
+          {borderColor: theme.secondary}, focused && {borderColor: theme.primary}
+        ]}
         >
           <TextInput
           ref={storyTIRef}

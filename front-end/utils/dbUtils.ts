@@ -57,7 +57,7 @@ export async function saveStoryAsync(db: SQLiteDatabase, storyRaw: StoryRaw) {
     const storyDB = toDBFormat(storyRaw) as StoryDB
     console.log("Converted to DB format")
     
-    await db.runAsync(
+    const {lastInsertRowId} = await db.runAsync(
         `INSERT INTO stories (title, date, tags, emotions, origNotes, storyText, searchable_text)
         VALUES (?, ?, ?, ?, ?, ?, ?);
         `,
@@ -72,6 +72,7 @@ export async function saveStoryAsync(db: SQLiteDatabase, storyRaw: StoryRaw) {
     )
     console.log("Inserted into stories_fst table")
     
+    return lastInsertRowId
 }
 
 export async function deleteStoryAsync(db: SQLiteDatabase, id: number) {
@@ -87,6 +88,27 @@ export async function deleteStoryAsync(db: SQLiteDatabase, id: number) {
         id
     )
     console.log("Deleted from stories_fst table")
+    
+}
+
+export async function getStoryAsync(db: SQLiteDatabase, id: string) {
+    
+    const query = `
+    SELECT
+    id, title, date, tags, emotions, origNotes, storyText, searchable_text
+    FROM stories
+    WHERE id = ?
+    `
+    
+    const resultDB = await db.getFirstAsync<StoryDB | null>(query, id)
+
+    if (resultDB) {
+        const result = fromDBFormat(resultDB) as Story
+        return result
+    }
+
+    throw Error("id doesn't exist in DB")
+
     
 }
 

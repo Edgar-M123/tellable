@@ -5,14 +5,14 @@ import { StoryRaw } from "@/typing/appTypes";
 import { gls } from "@/app/_layout";
 
 
-function TextLoaded(props: {storyData: StoryRaw}) {
+function TextLoaded(props: {text: string}) {
 
     const {theme} = useAppTheme()
     
     return (
         
         <View style={[gls.f1, gls.width100]}>
-            <ThemedText >{props.storyData.storyText}</ThemedText>
+            <ThemedText >{props.text}</ThemedText>
         </View>
 
 )
@@ -31,10 +31,10 @@ function TextPlaceholder() {
 }
 
 
-export function NewStoryText(props: {storyData: StoryRaw | null}) {
+export function NewStoryText(props: {showText: "transformed" | "original" , storyData: StoryRaw | null}) {
 
     if (props.storyData) {
-        return <TextLoaded storyData={props.storyData} />
+        return <TextLoaded text={props.showText == "transformed" ? props.storyData.storyText : props.storyData.origNotes} />
     }
 
     return <TextPlaceholder />
