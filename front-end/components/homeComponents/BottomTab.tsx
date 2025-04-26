@@ -10,6 +10,8 @@ import Animated, { FadeIn } from "react-native-reanimated";
 
 export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
 
+    console.log("Rendering BottomTab")
+
     const {theme, thmStyle} = useAppTheme()
 
     return (

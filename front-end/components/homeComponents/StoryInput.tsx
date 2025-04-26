@@ -9,7 +9,9 @@ import { ThemedText } from "../ThemedText";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Fontisto from '@expo/vector-icons/Fontisto';
 
-export function StoryInput() {
+export function StoryInput(props: {isTransforming: boolean}) {
+
+    console.log("rendering StoryInput")
 
     const {theme, thmStyle} = useAppTheme()
     const storyTIRef = React.useRef<TextInput>(null)
@@ -26,8 +28,8 @@ export function StoryInput() {
 
     const deactivate = React.useCallback(() => {
       setFocused(false)
-      setActiveComp(null)
-    }, [])
+      !props.isTransforming && setActiveComp(null)
+    }, [props.isTransforming])
 
     const clearText = React.useCallback(() => {
       storyTIRef.current?.clear();
@@ -53,20 +55,21 @@ export function StoryInput() {
         };
     }, [showCalendar]);
       
-    React.useEffect(() => {
-        const backBehavior = () => {
-          Keyboard.dismiss()
-          return true
-      }
+    // React.useEffect(() => {
+        
+    //   const backBehavior = () => {
+    //     Keyboard.dismiss()
+    //     return true
+    //   }
 
-      const subscription = BackHandler.addEventListener(
-          'hardwareBackPress',
-          backBehavior
-      )
+    //   const subscription = BackHandler.addEventListener(
+    //     'hardwareBackPress',
+    //     backBehavior
+    //   )
       
-      return () => subscription.remove()
+    //   return () => subscription.remove()
 
-    }, [])
+    // }, [])
 
     return (
       <TouchableWithoutFeedback onPress={() => storyTIRef.current?.focus()}>
@@ -89,16 +92,19 @@ export function StoryInput() {
           onFocus={activate}
           onBlur={deactivate}
           onContentSizeChange={({nativeEvent}) => changeTIHeight(nativeEvent.contentSize.height)}
+          editable={!props.isTransforming}
           />
-          <View style={[gls.width100, gls.rows, {paddingTop: 5}]}>
-            <Pressable 
-            style={({pressed}) => [gls.rows, gls.circle, gls.centerAll, styles.clearBtn, pressed && thmStyle.bgSurfaceHover]}
-            onPress={clearText}
-            >
-              <Fontisto name="undo" size={14} style={{paddingBottom: 3}} color={theme.onSurfaceWeak} />
-              <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Clear</ThemedText>
-            </Pressable>
-          </View>
+          {!props.isTransforming && (
+            <View style={[gls.width100, gls.rows, {paddingTop: 5}]}>
+              <Pressable 
+              style={({pressed}) => [gls.rows, gls.circle, gls.centerAll, styles.clearBtn, pressed && thmStyle.bgSurfaceHover]}
+              onPress={clearText}
+              >
+                <Fontisto name="undo" size={14} style={{paddingBottom: 3}} color={theme.onSurfaceWeak} />
+                <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Clear</ThemedText>
+              </Pressable>
+            </View>
+          )}
         </Animated.View>
       </TouchableWithoutFeedback>
     )

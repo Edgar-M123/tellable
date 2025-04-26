@@ -4,6 +4,8 @@ import { ThemedText } from "../ThemedText";
 
 export function QuickFilters() {
 
+    console.log("Rendering QuickFilters")
+
     return (
         <View>
             <FlatList

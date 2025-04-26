@@ -46,39 +46,41 @@ export default function RootLayout() {
   const {theme} = useAppTheme()
 
   return (
+    <View style={[gls.f1, {backgroundColor: theme.surface}]}>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <KeyboardProvider>
         <ActiveCompContextProvider>
           <CreateStoryContextProvider>
             <SQLiteProvider databaseName={'tellable.db'} onInit={migrateDbIfNeeded}>
-              <Stack
-              screenOptions={{
-                headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
-                headerStyle: {backgroundColor: theme.surface},
-                headerShadowVisible: false
-              }}
-              >
-                <Stack.Screen
-                name='index'
-                />
-                <Stack.Screen
-                name='newStory'
-                />
-                <Stack.Screen
-                name='calendar'
-                options={{
-                  presentation: "transparentModal",
-                  animation: "fade",
-                  headerShown: false
+                <Stack
+                screenOptions={{
+                  headerTitle: () => <View><ThemedText type='title' style={{color: theme.primary, fontSize: 20}}>'tellable'</ThemedText></View>,
+                  headerStyle: {backgroundColor: theme.surface},
+                  headerShadowVisible: false,
                 }}
-                />
-              </Stack>
-              <StatusBar style="auto" backgroundColor={theme.surface} />
+                >
+                  <Stack.Screen
+                  name='index'
+                  />
+                  <Stack.Screen
+                  name='newStory'
+                  />
+                  <Stack.Screen
+                  name='calendar'
+                  options={{
+                    presentation: "transparentModal",
+                    animation: "fade",
+                    headerShown: false
+                  }}
+                  />
+                </Stack>
+                <StatusBar style="auto" backgroundColor={theme.surface} />
             </SQLiteProvider>
           </CreateStoryContextProvider>
         </ActiveCompContextProvider>
       </KeyboardProvider>
     </ThemeProvider>
+    </View>
   );
 }
 

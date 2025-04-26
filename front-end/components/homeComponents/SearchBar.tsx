@@ -15,6 +15,8 @@ const SearchBar = forwardRef((props, ref: ForwardedRef<TextInput>) => {
     
     const {theme} = useAppTheme()
     const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
+
+    console.log("Rendering SearchBar")
     
 
     const activeProg = useSharedValue(0)

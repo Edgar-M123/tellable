@@ -9,16 +9,36 @@ import Animated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanim
 import { StoryDateSelect } from "./StoryDateSelect";
 import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 import { CompTab } from "./CompTab";
+import { createStory } from "@/utils/transformUtils"
+import { useSQLiteContext } from "expo-sqlite";
+import { getTodayString } from "@/utils/dateUtils"
+import { useRouter } from "expo-router";
 
 
 
 export function CreateStorySxn() {
 
+    console.log("rendering CreateStorySxn")
+
+    const db = useSQLiteContext()
+    const router = useRouter()
     const {theme, thmStyle} = useAppTheme()
-    const {activeComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
+    const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
 
     const [disabled, setDisabled] = React.useState(true)
-    const {storyText} = useCreateStoryContext()
+    const [isTransforming, setIsTransforming] = React.useState(false)
+    const {storyText, setStoryText, storyDate, setStoryDate} = useCreateStoryContext()
+
+    const transformFn = React.useCallback(async () => {
+        setIsTransforming(true)
+        setDisabled(true)
+        const id = await createStory(db, storyText, storyDate)
+        setStoryText("")
+        setStoryDate(getTodayString())
+        router.navigate(`/newStory?id=${id}`)
+        setActiveComp(null)
+        setIsTransforming(false)
+    }, [storyText, storyDate])
 
     React.useEffect(() => {
     
@@ -26,7 +46,6 @@ export function CreateStorySxn() {
         storyText.length == 0 && !disabled && setDisabled(true);
     
     }, [storyText])
-    
 
     return (
             <Animated.View 
@@ -36,14 +55,18 @@ export function CreateStorySxn() {
             style={[gls.f1, gls.shrink, gls.width100, thmStyle.bgSurface, {justifyContent: "space-evenly", maxHeight: "50%", paddingTop: 10, gap: 10}]}
             >
                 <View>
-                    <ThemedText type='title'>What happened today?</ThemedText>
-                    <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Jot down something you experienced</ThemedText>
+                    <ThemedText type='title'>{isTransforming ? "Transforming your story..." : "What happened today?"}</ThemedText>
+                    {!isTransforming && <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>Jot down something you experienced</ThemedText>}
                 </View>
-                <StoryInput />
+                <StoryInput isTransforming={isTransforming} />
                 {activeComp && <StoryDateSelect />}
-                <TransformBtn disabled={disabled} />
+                <TransformBtn isTransforming={isTransforming} transformFn={transformFn} disabled={disabled} />
                 {activeComp && Platform.OS == "ios" && <CompTab />}
                 
             </Animated.View>
     )
+
+
+
+
 }

@@ -7,6 +7,9 @@ import Animated, { FadeIn, FadeOut, LinearTransition } from "react-native-reanim
 
 export function HomeDivider() {
 
+    console.log("Rendering HomeDivider")
+
+
     const {theme} = useAppTheme()
 
     return (

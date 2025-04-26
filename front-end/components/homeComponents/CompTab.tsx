@@ -8,6 +8,9 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 
 export function CompTab() {
 
+    console.log("Rendering CompTab")
+
+
     const {setActiveComp} = useActiveCompContext()
     const {theme} = useAppTheme()
 

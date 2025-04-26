@@ -1,21 +1,20 @@
-import { Easing, Pressable } from "react-native"
+import { ActivityIndicator, Easing, Pressable } from "react-native"
 import { AnimThemedText, ThemedText } from "../ThemedText"
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { gls } from "@/app/_layout";
 import Animated, { interpolate, interpolateColor, LinearTransition, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import React from "react";
+import React, { memo } from "react";
 import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 import { createStory, transformStoryRequest } from "@/utils/transformUtils";
 import { useRouter } from "expo-router";
 import { getTodayString } from "@/utils/dateUtils";
 import { useSQLiteContext } from "expo-sqlite";
 
-export function TransformBtn(props: {disabled: boolean}) {
+export const TransformBtn = memo(function TransformBtn(props: {isTransforming: boolean, transformFn: () => void, disabled: boolean}) {
 
-    const db = useSQLiteContext()
+    console.log("rendering TransformBtn")
+
     const {theme, thmStyle} = useAppTheme()
-    const {storyText, setStoryText, storyDate, setStoryDate} = useCreateStoryContext()
-    const router = useRouter()
 
     const activeProg = useSharedValue(0)
 
@@ -36,13 +35,6 @@ export function TransformBtn(props: {disabled: boolean}) {
         ),
     }))
 
-    const transformFn = React.useCallback(async () => {
-        const id = await createStory(db, storyText, storyDate)
-        setStoryText("")
-        setStoryDate(getTodayString())
-        router.navigate(`/newStory?id=${id}`)
-    }, [storyText, storyDate])
-
     React.useEffect(() => {
 
         props.disabled
@@ -57,12 +49,13 @@ export function TransformBtn(props: {disabled: boolean}) {
         style={[activeBtn, gls.width100, gls.centerAll, gls.br, {overflow: 'hidden'}]}
         >
             <Pressable 
-            style={({pressed}) => [gls.width100, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
+            style={({pressed}) => [gls.width100, gls.rows, gls.centerAll, {padding: 10}, pressed && [thmStyle.bgPrimaryHover]]}
             disabled={props.disabled}
-            onPress={transformFn}
+            onPress={props.transformFn}
             >
-                <AnimThemedText style={[activeText]}>Transform your story</AnimThemedText>
+                {props.isTransforming && <ActivityIndicator color={theme.onSurfaceWeakest} />}
+                <AnimThemedText style={[activeText]}>{props.isTransforming ? "Working on it" : "Transform your story"}</AnimThemedText>
             </Pressable>
         </Animated.View>
     )
-}
+})

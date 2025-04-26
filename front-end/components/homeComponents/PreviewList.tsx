@@ -25,7 +25,8 @@ function EmptyListComp() {
 export function PreviewList(props: {stories: StoryPreview[] | null}) {
 
     const {theme} = useAppTheme()
-    const {activeComp} = useActiveCompContext()
+    console.log("Rendering PreviewList")
+
     
 
     return (
