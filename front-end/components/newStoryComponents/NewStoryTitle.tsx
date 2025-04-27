@@ -20,7 +20,7 @@ function TitleLoaded(props: {storyData: Story}) {
                 <ThemedText type="small" style={[{color: theme.onSurfaceWeak}]}>{props.storyData.date}</ThemedText>
 
                 {/* tags */}
-                <StoryTags tags={testTags} />
+                <StoryTags id={props.storyData.id} tags={props.storyData.tags} />
 
             </View>
 

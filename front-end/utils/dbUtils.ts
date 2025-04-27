@@ -1,3 +1,4 @@
+import { TagColors } from "@/constants/Colors";
 import { fromDBFormat, Story, StoryDB, StoryPreview, StoryPreviewDB, StoryRaw, toDBFormat } from "@/typing/appTypes";
 import { SQLiteDatabase } from "expo-sqlite";
 
@@ -35,9 +36,25 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 storyText TEXT,
                 searchable_text TEXT
             );
+
             CREATE VIRTUAL TABLE stories_fts 
             USING FTS5(title, date, tags, emotions, searchable_text);
+            
+            CREATE TABLE IF NOT EXISTS tags (
+                id INTEGER PRIMARY KEY NOT NULL,
+                name TEXT
+            )
         `);
+
+        const statement = await db.prepareAsync('INSERT INTO tags (name) VALUES (?)')
+        
+        try {
+            for (const tag in TagColors) {
+                await statement.executeAsync(tag)
+            }
+        } finally {
+            await statement.finalizeAsync()
+        }
         
         console.log("DB created")
         currentDbVersion = 1;
@@ -122,7 +139,7 @@ export async function getStoryPreviewsAsync(db:SQLiteDatabase, limit?: number) {
     } else {
         resultDB = await db.getAllAsync<StoryPreviewDB>("SELECT id, title, date, tags FROM stories ORDER BY date DESC")
     }
-        
+    
     console.log("Got all previews. Converting to right format")
     
     let result: StoryPreview[] = []
@@ -130,6 +147,27 @@ export async function getStoryPreviewsAsync(db:SQLiteDatabase, limit?: number) {
         result.push(fromDBFormat(item))
     }
     console.log("All previews converted")
-
+    
     return result
+}
+
+export async function getTagsAsync(db: SQLiteDatabase) {
+    console.log("Getting all tags from tags table")
+    const tags = await db.getAllAsync<{name: string}>("SELECT name FROM tags ORDER BY name ASC")
+    let tagsList = []
+    for (const obj of tags) {
+        tagsList.push(obj.name)
+    }
+
+    return tagsList
+    
+}
+
+export async function updateStoryTagsAsync(db: SQLiteDatabase, id: number | string, tags: string[]) {
+    console.log("Updating tags for id: ", id)
+
+    const tagsString = JSON.stringify(tags)
+
+    await db.runAsync("UPDATE stories SET tags = ? WHERE id = ?", tagsString, id)
+
 }

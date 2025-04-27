@@ -39,15 +39,23 @@ initialize_app()
 genai.configure(api_key=gemini_api_key.value) #type: ignore
 model = genai.GenerativeModel(model_name="gemini-2.0-flash") # type: ignore
 
+tags = ["Funny", "Surprising", "Heartwarming", "Inspiring", "Awkward", "Work", "Family", "Friends", "Travel", "Life Lesson"]
 
 # Prompt engineering for Gemini
 GEMINI_PROMPT = """
 Analyze the following text and extract or generate the following information:
 1. A concise, engaging title
-2. A cohesive short story based on the input (if the input is already a story, enhance it). The story will be used in regular conversation.
-3. A list of relevant tags (3-5 tags)
-4. A list of emotions conveyed in the text (2-3 primary emotions)
-5. Searchable text that summarizes the key elements
+
+2. An engaging story based on the input text. The input text is typically made up of someones notes of something they experienced.
+    Your job is to enhance the notes so that the story can be told in an engaging way. 
+    The story will be used in regular conversation. Try to make it sound as natural as possible, like how a normal person would talk.
+    Feel free to add line breaks to make the story read well.
+
+3. A list of relevant tags (3-5 tags). You can only use the following tags: {tags}
+
+4. A list of emotions conveyed in the text (2-3 primary emotions).
+
+5. Searchable text that summarizes the key elements.
 
 Format your response as a JSON object with the following structure:
 {{
@@ -78,7 +86,7 @@ async def process_with_gemini(text_input: str) -> Tuple[Union[GeminiResponse, Er
         # Generate the prompt with user input
         try:
             logger.info("generating prompt")
-            prompt = GEMINI_PROMPT.format(text_input=text_input)
+            prompt = GEMINI_PROMPT.format(text_input=text_input, tags=tags)
             logger.info("prompt: %s", prompt)
         except Exception as exc:
             logger.error(exc)

@@ -80,6 +80,14 @@ export default function RootLayout() {
                     headerShown: false
                   }}
                   />
+                  <Stack.Screen
+                  name='tagSelect'
+                  options={{
+                    presentation: "transparentModal",
+                    animation: "fade",
+                    headerShown: false
+                  }}
+                  />
                 </Stack>
                 <StatusBar style="auto" backgroundColor={theme.surface} />
             </SQLiteProvider>

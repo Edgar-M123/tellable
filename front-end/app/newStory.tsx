@@ -10,7 +10,7 @@ import { NewStoryTitle } from '@/components/newStoryComponents/NewStoryTitle';
 import { NewStoryText } from '@/components/newStoryComponents/NewStoryText';
 import { useSQLiteContext } from 'expo-sqlite';
 import { getStoryAsync, saveStoryAsync } from '@/utils/dbUtils';
-import { useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { StorytellingTips } from '@/components/newStoryComponents/StorytellingTips';
 
@@ -35,12 +35,12 @@ export default function NewStoryPage() {
     const showTransformed = React.useCallback(() => {setStoryType("transformed")}, [])
     const showOriginal = React.useCallback(() => {setStoryType("original")}, [])
 
-    React.useEffect(() => {
+    useFocusEffect(React.useCallback(() => {
 
         console.log("Running new story effect")
         setTimeout(fetchStory, 50)
 
-    }, [])
+    }, []))
 
 
     return (

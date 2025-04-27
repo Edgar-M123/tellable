@@ -6,8 +6,9 @@ import { Pressable, StyleSheet, View, FlatList } from "react-native";
 import { ThemedText } from "../ThemedText";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { TagColor, TagColors } from "@/constants/Colors";
+import { useRouter } from "expo-router";
 
-const TagComp = memo(function TagComp(props: {text: string, colorScheme: TagColor}) {
+export const TagComp = memo(function TagComp(props: {text: string, colorScheme: TagColor}) {
 
     return (
         <View 
@@ -20,11 +21,12 @@ const TagComp = memo(function TagComp(props: {text: string, colorScheme: TagColo
 })
 
 
-export const StoryTags = memo(function StoryTags(props: {tags: string[]}) {
+export const StoryTags = memo(function StoryTags(props: {id: number; tags: string[]}) {
 
     const {theme} = useAppTheme()
+    const router = useRouter()
 
-    const openTags = React.useCallback(() => {}, [])
+    const openTags = React.useCallback(() => {router.navigate({pathname: "/tagSelect", params: {id: props.id, currentTags: JSON.stringify(props.tags) }})}, [])
 
     return (
         <View style={[gls.rows, styles.container]}>
