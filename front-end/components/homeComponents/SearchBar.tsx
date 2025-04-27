@@ -6,12 +6,15 @@ import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withTimin
 import React, { ForwardedRef, forwardRef, RefObject} from "react";
 import { KeyboardEvents } from "react-native-keyboard-controller";
 import { ActiveCompContext, ActiveCompContextValues } from "@/app/_layout";
+import { searchStories } from "@/utils/dbUtils";
+import { useSQLiteContext } from "expo-sqlite";
 
 
 
-const SearchBar = forwardRef((props, ref: ForwardedRef<TextInput>) => {
+const SearchBar = forwardRef((props: {searchFn: (text: string) => void}, ref: ForwardedRef<TextInput>) => {
 
     const refTI = ref as RefObject<TextInput>
+    const db = useSQLiteContext()
     
     const {theme} = useAppTheme()
     const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
@@ -64,6 +67,7 @@ const SearchBar = forwardRef((props, ref: ForwardedRef<TextInput>) => {
             placeholderTextColor={theme.onSurfaceWeakest}
             onFocus={activate}
             onBlur={deactivate}
+            onChangeText={(text) => props.searchFn(text)}
             />
       </Animated.View>
     )

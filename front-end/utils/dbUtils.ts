@@ -38,12 +38,12 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
             );
 
             CREATE VIRTUAL TABLE stories_fts 
-            USING FTS5(title, date, tags, emotions, searchable_text);
+            USING FTS5(id, title, date, tags, emotions, searchable_text);
             
             CREATE TABLE IF NOT EXISTS tags (
                 id INTEGER PRIMARY KEY NOT NULL,
                 name TEXT
-            )
+            );
         `);
 
         const statement = await db.prepareAsync('INSERT INTO tags (name) VALUES (?)')
@@ -82,10 +82,10 @@ export async function saveStoryAsync(db: SQLiteDatabase, storyRaw: StoryRaw) {
     )
     console.log("Inserted into stories table")
     await db.runAsync(
-        `INSERT INTO stories_fts (title, date, tags, emotions, searchable_text)
-        VALUES (?, ?, ?, ?, ?);
+        `INSERT INTO stories_fts (id, title, date, tags, emotions, searchable_text)
+        VALUES (?, ?, ?, ?, ?, ?);
         `,
-        [storyDB.title, storyDB.date, storyDB.tags, storyDB.emotions, storyDB.searchable_text]
+        [lastInsertRowId, storyDB.title, storyDB.date, storyDB.tags, storyDB.emotions, storyDB.searchable_text]
     )
     console.log("Inserted into stories_fst table")
     
@@ -169,5 +169,45 @@ export async function updateStoryTagsAsync(db: SQLiteDatabase, id: number | stri
     const tagsString = JSON.stringify(tags)
 
     await db.runAsync("UPDATE stories SET tags = ? WHERE id = ?", tagsString, id)
+    await db.runAsync("UPDATE stories_fts SET tags = ? WHERE id = ?", tagsString, id)
+
+}
+
+
+// Function to search stories
+export async function searchStories(db: SQLiteDatabase, query: string) {
+      
+    console.log("Searching for query: ", query)
+
+    if (!query || query.trim() === '') {
+        // Handle empty search query case
+        console.log("Empty search query, returning all stories")
+        return await getStoryPreviewsAsync(db);
+        // return getAllStories(db);
+    }
+
+    // Format query for FTS5 - prefix matching with *
+    console.log("formatting query")
+    const formattedQuery = query.trim().split(' ').map(word => `${word}*`).join(' ');
+    console.log("formatted query:", formattedQuery)
+
+    const sqlString = `
+    SELECT s.id, s.title, s.date, s.tags 
+    FROM stories s 
+    JOIN stories_fts f ON s.id = f.id 
+    WHERE stories_fts MATCH ? 
+    ORDER BY s.date DESC;`
+
+    console.log("Search Sql: ", sqlString)
+    
+    const result = await db.getAllAsync<StoryPreviewDB>(sqlString, [formattedQuery]);
+    
+    console.log("Search returned: ", result);
+    
+    let stories: StoryPreview[] = []
+    for (const storyDB of result) {
+        stories.push((fromDBFormat(storyDB) as StoryPreview))
+    }
+    return stories;
 
 }

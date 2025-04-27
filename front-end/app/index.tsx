@@ -15,7 +15,7 @@ import { BottomTab } from '@/components/homeComponents/BottomTab';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StoryPreview } from '@/typing/appTypes';
 import { useFocusEffect } from 'expo-router';
-import { getStoryPreviewsAsync } from '@/utils/dbUtils';
+import { getStoryPreviewsAsync, searchStories } from '@/utils/dbUtils';
 import { useSQLiteContext } from 'expo-sqlite';
 import { CompTab } from '@/components/homeComponents/CompTab';
 import { PreviewList } from '@/components/homeComponents/PreviewList';
@@ -37,6 +37,11 @@ export default function HomeScreen() {
 
   }, [])
 
+  async function searchFn(text: string) {
+    const stories = await searchStories(db, text)
+    setRecentStories(stories)
+  }
+
   useFocusEffect(React.useCallback(() => {fetchRecent()}, []))
 
   return (
@@ -56,7 +61,7 @@ export default function HomeScreen() {
             style={[gls.width100, {paddingVertical: 10, gap: 10}]}
             >
               <ThemedText style={{color: theme.onSurfaceWeak}}>Find your stories</ThemedText>
-              <SearchBar ref={searchTIRef} />
+              <SearchBar searchFn={searchFn} ref={searchTIRef} />
             </Animated.View>
 
 
