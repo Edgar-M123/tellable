@@ -26,11 +26,22 @@ export const StoryTags = memo(function StoryTags(props: {id: number; tags: strin
     const {theme} = useAppTheme()
     const router = useRouter()
 
-    const openTags = React.useCallback(() => {router.navigate({pathname: "/tagSelect", params: {id: props.id, currentTags: JSON.stringify(props.tags) }})}, [])
+    const openTags = React.useCallback(() => {router.navigate({pathname: "/tagSelect", params: {id: props.id, currentTags: JSON.stringify(props.tags) }})}, [props.tags])
 
     return (
-        <View style={[gls.rows, styles.container]}>
+        <View style={[gls.rows, gls.width100, styles.container]}>
             
+            {/* current tags */}
+            <View style={{borderRightWidth: StyleSheet.hairlineWidth, borderColor: theme.secondary, paddingRight: 10, flexShrink: 1, flexGrow: 0}}>
+                <FlatList 
+                data={props.tags}
+                renderItem={({item}) => <TagComp text={item} colorScheme={TagColors[item]} />}
+                horizontal={true}
+                contentContainerStyle={{gap: 5}}
+                showsHorizontalScrollIndicator={false}
+                />
+            </View>
+
             <Pressable 
             style={({pressed}) => [gls.circle, styles.addTagBtn, {backgroundColor: pressed ? theme.surfaceContainerHover : theme.surfaceContainer}]}
             onPress={openTags}
@@ -38,16 +49,7 @@ export const StoryTags = memo(function StoryTags(props: {id: number; tags: strin
                 <ThemedText type="small" style={{color: theme.onSurfaceWeakest}}>+ tag</ThemedText>
             </Pressable>
 
-            <View style={[{height: 30, width: StyleSheet.hairlineWidth, backgroundColor: theme.secondary}]}/>
 
-            {/* current tags */}
-            <FlatList 
-            data={props.tags}
-            renderItem={({item}) => <TagComp text={item} colorScheme={TagColors[item]} />}
-            horizontal={true}
-            contentContainerStyle={{gap: 5}}
-            showsHorizontalScrollIndicator={false}
-            />
 
 
         </View>
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     container: {
         gap: 10, 
         alignItems: 'center', 
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
     addTagBtn: {
         paddingVertical: 5, 

@@ -19,7 +19,7 @@ const TagRow = memo(function TagRow(props: {unselectFn: () => void, selectFn: ()
 
     return (
         <Pressable 
-        style={[gls.width100, gls.rows, {gap: 10, alignItems: "center"}]}
+        style={[gls.width100, gls.rows, {paddingVertical: 10, gap: 10, alignItems: "center"}]}
         onPress={props.selected ? props.unselectFn : props.selectFn}
         >
 
@@ -113,7 +113,6 @@ export default function TagSelectModal() {
                         text={item} colorScheme={TagColors[item]}
                         />
                     }
-                    contentContainerStyle={{gap: 10}}
                     />
 
                     <View style={[gls.width100, gls.rows, {gap: 10, alignItems: 'center', justifyContent: "flex-end"}]}>
