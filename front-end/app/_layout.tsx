@@ -11,6 +11,7 @@ import {KeyboardProvider} from 'react-native-keyboard-controller'
 import { CreateStoryContextProvider } from '@/contexts/CreateStoryContext';
 import {SQLiteProvider} from 'expo-sqlite'
 import { migrateDbIfNeeded } from '@/utils/dbUtils';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export const ActiveCompContext = React.createContext({})
 
@@ -41,9 +42,15 @@ export function ActiveCompContextProvider(props: {children: any}) {
   )
 }
 
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const {theme} = useAppTheme()
+
+  React.useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(theme.surface);
+  })
+
 
   return (
     <View style={[gls.f1, {backgroundColor: theme.surface}]}>

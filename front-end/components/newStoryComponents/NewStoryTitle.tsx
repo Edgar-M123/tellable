@@ -1,11 +1,13 @@
 import { View } from "react-native"
 import { ThemedText } from "../ThemedText"
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { StoryRaw } from "@/typing/appTypes";
+import { Story, StoryRaw } from "@/typing/appTypes";
 import { gls } from "@/app/_layout";
+import { StoryTags } from "./StoryTags";
 
+const testTags = ["Funny", "Surprising", "Work"]
 
-function TitleLoaded(props: {storyData: StoryRaw}) {
+function TitleLoaded(props: {storyData: Story}) {
 
     const {theme} = useAppTheme()
     
@@ -13,7 +15,15 @@ function TitleLoaded(props: {storyData: StoryRaw}) {
         
         <View style={[gls.width100, {alignItems: "flex-start"}]}>
             <ThemedText type='title'>{props.storyData.title}</ThemedText>
-            <ThemedText type="small" style={{color: theme.onSurfaceWeak}}>{props.storyData.date}</ThemedText>
+
+            <View style={[{gap: 10}]}>
+                <ThemedText type="small" style={[{color: theme.onSurfaceWeak}]}>{props.storyData.date}</ThemedText>
+
+                {/* tags */}
+                <StoryTags tags={testTags} />
+
+            </View>
+
         </View>
 
 )
@@ -26,13 +36,13 @@ function TitlePlaceholder() {
 
     return (
         <View>
-            <ThemedText type="title" style={{color: theme.onSurfaceWeakest}}>Transforming your story...</ThemedText>
+            <ThemedText type="title" style={{color: theme.onSurfaceWeakest}}>Getting your story...</ThemedText>
         </View>
     )
 }
 
 
-export function NewStoryTitle(props: {storyData: StoryRaw | null}) {
+export function NewStoryTitle(props: {storyData: Story | null}) {
 
     if (props.storyData) {
         return <TitleLoaded storyData={props.storyData} />

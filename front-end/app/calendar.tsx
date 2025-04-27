@@ -8,7 +8,7 @@ import React from "react";
 import Animated, {useSharedValue, useAnimatedStyle, interpolateColor, interpolate, withTiming} from "react-native-reanimated";
 import { AnimThemedText, ThemedText } from "@/components/ThemedText";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { CreateStoryContext, CreateStoryContextValues } from "@/contexts/CreateStoryContext";
+import { useCreateStoryContext } from "@/contexts/CreateStoryContext";
 
 export default function CalendarModal() {
 
@@ -16,7 +16,7 @@ export default function CalendarModal() {
     const [disabled, setDisabled] = React.useState(true)
     const {theme, thmStyle} = useAppTheme()
     const {setShowCalendar} = React.useContext(ActiveCompContext) as ActiveCompContextValues
-    const {storyDate, setStoryDate} = React.useContext(CreateStoryContext) as CreateStoryContextValues
+    const {storyDate, setStoryDate} = useCreateStoryContext()
     const [selectedDate, setSelectedDate] = React.useState(storyDate)
 
     const activeProg = useSharedValue(0)

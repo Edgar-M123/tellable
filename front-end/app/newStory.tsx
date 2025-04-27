@@ -12,6 +12,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { getStoryAsync, saveStoryAsync } from '@/utils/dbUtils';
 import { useLocalSearchParams } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
+import { StorytellingTips } from '@/components/newStoryComponents/StorytellingTips';
 
 
 
@@ -37,7 +38,7 @@ export default function NewStoryPage() {
     React.useEffect(() => {
 
         console.log("Running new story effect")
-        fetchStory()
+        setTimeout(fetchStory, 50)
 
     }, [])
 
@@ -46,43 +47,46 @@ export default function NewStoryPage() {
         <SafeAreaView style={[gls.f1, gls.height100, gls.width100]} edges={Platform.select({ios: ["bottom"], android: []})}>
             <Animated.View 
             layout={LinearTransition.duration(250)}
-            style={[gls.f1, gls.height100, gls.width100, thmStyle.bgSurface, {alignItems: "center", padding: 14, gap: 10}]}
+            style={[gls.f1, gls.height100, gls.width100, thmStyle.bgSurface, {alignItems: "center", padding: 14, paddingBottom: 30, gap: 10}]}
             >
 
                 <NewStoryTitle storyData={newStoryData} />
 
-                <View>
+                <View style={[{height: 2}]} />
 
-                    <View style={[gls.rows, {gap: 10}]}>
-                        
-                        <Pressable 
-                        style={[gls.centerAll, styles.storyBtn]}
-                        onPress={showTransformed}
+                <View style={[gls.shrink, gls.rows, {alignSelf: "flex-start", gap: 10}]}>
+                    
+                    <Pressable 
+                    style={[gls.centerAll, styles.storyBtn, gls.circle, storyType == "transformed" && {backgroundColor: theme.primaryContainer}]}
+                    onPress={showTransformed}
+                    >
+                        <ThemedText 
+                        type={storyType == "transformed" ? 'smallBold' : "small"} 
+                        style={[{color: storyType == "transformed" ? theme.primary : theme.onSurfaceWeakest }]}
                         >
-                            <ThemedText 
-                            type={storyType == "transformed" ? 'smallBold' : "small"} 
-                            style={[{color: storyType == "transformed" ? theme.primary : theme.onSurfaceWeakest }]}
-                            >
-                                Transformed
-                            </ThemedText>
-                        </Pressable>
+                            Transformed
+                        </ThemedText>
+                    </Pressable>
 
-                        <Pressable
-                        style={[gls.centerAll, styles.storyBtn]}
-                        onPress={showOriginal}
+                    <Pressable
+                    style={[gls.centerAll, styles.storyBtn, gls.circle, storyType == "original" && {backgroundColor: theme.primaryContainer}]}
+                    onPress={showOriginal}
+                    >
+                        <ThemedText 
+                        type={storyType == "original" ? 'smallBold' : "small"} 
+                        style={[{color: storyType == "original" ? theme.primary : theme.onSurfaceWeakest }]}
                         >
-                            <ThemedText 
-                            type={storyType == "original" ? 'smallBold' : "small"} 
-                            style={[{color: storyType == "original" ? theme.primary : theme.onSurfaceWeakest }]}
-                            >
-                                Original
-                            </ThemedText>
-                        </Pressable>
-                    </View>
-
-                    <NewStoryText showText={storyType} storyData={newStoryData} />
+                            Original
+                        </ThemedText>
+                    </Pressable>
                 </View>
-            
+
+                <NewStoryText showText={storyType} storyData={newStoryData} />
+
+                {storyType == "transformed" && newStoryData && (
+                    <StorytellingTips text={"Test text"} />
+                )}
+
             </Animated.View>
         </SafeAreaView>
     );
