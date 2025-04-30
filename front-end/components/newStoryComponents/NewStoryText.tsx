@@ -30,6 +30,7 @@ function TextLoaded(props: {text: string}) {
             layout={LinearTransition.duration(250)}
             style={[gls.rows, {justifyContent: "flex-end"}]}
             >
+                
                 <Pressable
                 style={({pressed}) => [gls.circle, {padding: 5}, pressed && {backgroundColor: theme.surfaceHover}]}
                 onPress={copyFn}

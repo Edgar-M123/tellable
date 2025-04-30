@@ -47,7 +47,7 @@ export function StoryInput(props: {isTransforming: boolean}) {
 
     React.useEffect(() => {
         const show = KeyboardEvents.addListener("keyboardWillHide", (e) => {
-          !showCalendar && storyTIRef.current?.blur()
+          !showCalendar && storyTIRef.current?.isFocused() && storyTIRef.current?.blur()
         });
       
         return () => {
@@ -55,22 +55,6 @@ export function StoryInput(props: {isTransforming: boolean}) {
         };
     }, [showCalendar]);
       
-    // React.useEffect(() => {
-        
-    //   const backBehavior = () => {
-    //     Keyboard.dismiss()
-    //     return true
-    //   }
-
-    //   const subscription = BackHandler.addEventListener(
-    //     'hardwareBackPress',
-    //     backBehavior
-    //   )
-      
-    //   return () => subscription.remove()
-
-    // }, [])
-
     return (
       <TouchableWithoutFeedback onPress={() => storyTIRef.current?.focus()}>
         <Animated.View

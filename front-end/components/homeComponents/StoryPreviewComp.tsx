@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { gls } from "@/app/_layout";
+import { gls, useActiveCompContext } from "@/app/_layout";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { View, Text, StyleSheet, Pressable } from "react-native"
 import { StoryPreview } from "@/typing/appTypes";
@@ -13,10 +13,10 @@ export const StoryPreviewComp = memo(function StoryPreviewComp(props: {data: Sto
 
     const {theme} = useAppTheme()
     const router = useRouter()
-
-    const goToStory = React.useCallback(() => {router.navigate(`/newStory?id=${props.data.id}`)}, [])
-
+    const {activeComp} = useActiveCompContext()
     
+    const goToStory = React.useCallback(() => {router.push(`/newStory?id=${props.data.id}`)}, [])
+
     
     return (
         <Pressable 
@@ -27,7 +27,7 @@ export const StoryPreviewComp = memo(function StoryPreviewComp(props: {data: Sto
         onPress={goToStory}
         >
 
-            <ThemedText type="bold">{props.data.title}</ThemedText>
+            <ThemedText type="bold" numberOfLines={activeComp == "search" ? 0 : 1}>{props.data.title}</ThemedText>
             <ThemedText style={{color: theme.onSurfaceWeak}} type="small">{props.data.date}</ThemedText>
 
 

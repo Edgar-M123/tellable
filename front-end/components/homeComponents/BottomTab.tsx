@@ -6,6 +6,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useAppTheme } from "@/hooks/useAppTheme";
 import React, { RefObject } from "react";
 import Animated, { FadeIn } from "react-native-reanimated";
+import { useRouter } from "expo-router";
 
 
 export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
@@ -13,6 +14,9 @@ export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
     console.log("Rendering BottomTab")
 
     const {theme, thmStyle} = useAppTheme()
+    const router = useRouter()
+
+    const goToLibrary = React.useCallback(() => {router.push("/library")}, [])
 
     return (
         <Animated.View entering={FadeIn.duration(250)} style={[gls.width100, gls.rows, gls.centerAll, {position: "relative", zIndex: 999, bottom: 0}]}>
@@ -32,9 +36,15 @@ export function BottomTab(props: {searchRef: RefObject<TextInput>}) {
                 </Pressable>
             </View>
 
-            <Pressable style={[gls.f1, gls.centerAll]}>
-                <MaterialCommunityIcons name="library" size={18} color={theme.onSurface} />
-            </Pressable>
+            <View style={[gls.f1, gls.centerAll]}>
+                <Pressable
+                style={({pressed}) => [gls.circle, gls.centerAll, {padding: 10}, pressed && {backgroundColor: theme.surfaceHover}]}
+                onPress={goToLibrary}
+                >
+                    <MaterialCommunityIcons name="library" size={18} color={theme.onSurface} />
+                    <ThemedText type="small">Library</ThemedText>
+                </Pressable>
+            </View>
 
         </Animated.View>
     )

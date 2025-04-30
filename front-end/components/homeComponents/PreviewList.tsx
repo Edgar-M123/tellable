@@ -25,6 +25,7 @@ function EmptyListComp() {
 export function PreviewList(props: {stories: StoryPreview[] | null}) {
 
     const {theme} = useAppTheme()
+    const {activeComp} = useActiveCompContext()
     console.log("Rendering PreviewList")
 
     
@@ -32,7 +33,7 @@ export function PreviewList(props: {stories: StoryPreview[] | null}) {
     return (
         <Animated.View 
         layout={LinearTransition.duration(250)}
-        style={[gls.width100, {paddingVertical: 10}]}
+        style={[gls.width100, {paddingVertical: 10}, activeComp == "search" && gls.f1]}
         >
             <ThemedText style={{color: theme.onSurfaceWeak}}>Recent</ThemedText>
             <FlatList

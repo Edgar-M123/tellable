@@ -13,17 +13,14 @@ import { useSQLiteContext } from "expo-sqlite";
 
 const SearchBar = forwardRef((props: {searchFn: (text: string) => void}, ref: ForwardedRef<TextInput>) => {
 
+    console.log("Rendering SearchBar")
     const refTI = ref as RefObject<TextInput>
-    const db = useSQLiteContext()
     
     const {theme} = useAppTheme()
-    const {activeComp, setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
-
-    console.log("Rendering SearchBar")
-    
+    const {setActiveComp} = React.useContext(ActiveCompContext) as ActiveCompContextValues
+    const [text, setText] = React.useState("")
 
     const activeProg = useSharedValue(0)
-
     const activeStyle = useAnimatedStyle(() => ({
         backgroundColor: interpolateColor(
             activeProg.value,
@@ -40,21 +37,25 @@ const SearchBar = forwardRef((props: {searchFn: (text: string) => void}, ref: Fo
     const activate = React.useCallback(() => {
         activeProg.value = withTiming(1, {duration: 250})
         setActiveComp("search")
+        props.searchFn(text)
     }, [])
     
     const deactivate = React.useCallback(() => {
-        activeProg.value = withTiming(0, {duration: 250})
-        setActiveComp(null)
-    }, [])
+        if (text == "") {
+            activeProg.value = withTiming(0, {duration: 250})
+            setActiveComp(null)
+        }
+    }, [text])
 
     React.useEffect(() => {
         const show = KeyboardEvents.addListener("keyboardWillHide", (e) => {
-            refTI.current?.blur()
+            refTI.current?.isFocused() && refTI.current?.blur()
         });
         
         return () => {
             show.remove();
         };
+        
     }, []);
     
     return (
@@ -65,9 +66,10 @@ const SearchBar = forwardRef((props: {searchFn: (text: string) => void}, ref: Fo
             style={[gls.f1, styles.input, {color: theme.onSurface}]}
             placeholder='search for keywords, dates, emotions...'
             placeholderTextColor={theme.onSurfaceWeakest}
+            defaultValue={text}
             onFocus={activate}
             onBlur={deactivate}
-            onChangeText={(text) => props.searchFn(text)}
+            onChangeText={(text) => {setText(text); props.searchFn(text)}}
             />
       </Animated.View>
     )

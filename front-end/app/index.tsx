@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet, TextInput, Keyboard, BackHandler } from 'react-native';
 
 import { gls, useActiveCompContext } from './_layout';
 import { useAppTheme } from '@/hooks/useAppTheme';
@@ -42,7 +42,29 @@ export default function HomeScreen() {
     setRecentStories(stories)
   }
 
-  useFocusEffect(React.useCallback(() => {fetchRecent()}, []))
+  useFocusEffect(React.useCallback(() => {
+    fetchRecent();
+  
+    const backBehavior = () => {
+      Keyboard.dismiss();
+      setActiveComp(null);
+      return true
+    }
+  
+    const subscription = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backBehavior
+    )
+
+    return () => subscription.remove()
+  }, []))
+
+  React.useEffect(() => {
+
+    recentStories && (recentStories.length > 2) &&  activeComp == null && fetchRecent()
+
+  }, [activeComp])
+
 
   return (
     <SafeAreaView 
@@ -54,7 +76,7 @@ export default function HomeScreen() {
           // layout={LinearTransition.duration(250)}
           entering={FadeIn.duration(250)} 
           exiting={FadeOut.duration(250)} 
-          style={[gls.f1, gls.width100, {maxHeight: "50%", justifyContent: "space-evenly", alignItems: "center"}]}
+          style={[gls.f1, gls.width100, {maxHeight: activeComp == "search" ? "100%" : "50%", justifyContent: "space-evenly", alignItems: "center"}]}
           >
             <Animated.View 
             layout={LinearTransition.duration(250)}
@@ -66,7 +88,7 @@ export default function HomeScreen() {
 
 
             <PreviewList stories={recentStories} />
-            {activeComp == "search" && Platform.OS == "ios" && <CompTab />}
+            {activeComp == "search" && <CompTab />}
           </Animated.View>
         )}
 
