@@ -1,6 +1,6 @@
 import asyncio
 import json
-from typing import List, Tuple, TypedDict, Union
+from typing import List, Tuple, Union
 import logging
 
 from firebase_admin import initialize_app #type: ignore
@@ -25,6 +25,7 @@ class GeminiResponse(BaseModel):
     tags: List[str]
     emotions: List[str]
     searchable_text: str
+    tips: List[str]
 
 class ErrorResponse(BaseModel):
     error: str
@@ -57,13 +58,16 @@ Analyze the following text and extract or generate the following information:
 
 5. Searchable text that summarizes the key elements.
 
+6. A list of 3-4 short tips for the user to tell the story in an engaging way.
+
 Format your response as a JSON object with the following structure:
 {{
   "title": "Title here",
   "story": "Enhanced or generated story here",
   "tags": ["tag1", "tag2", "tag3"],
   "emotions": ["emotion1", "emotion2"],
-  "searchable_text": "Searchable summary here"
+  "searchable_text": "Searchable summary here",
+  "tips": ["tip1", "tip2", "tip3"]
 }}
 
 Input text: {text_input}
@@ -124,29 +128,29 @@ async def process_with_gemini(text_input: str) -> Tuple[Union[GeminiResponse, Er
             logger.info("validated response successfully")
         except ValidationError as exc:
             logger.error("Response validation failed: %s", exc)
-            return {
-                "error": "incomplete_response",
-                "message": f"Gemini response validation error: {exc}",
-                "status": 500
-            }, 500
+            return ErrorResponse(
+                error= "incomplete_response",
+                message= f"Gemini response validation error: {exc}",
+                status= 500
+            ), 500
         
         return result, 200
     
     except GoogleAPIError as e:
         logging.error(e)
-        return {
-            "error": "gemini_api_error",
-            "message": f"Error calling Gemini API: {str(e)}",
-            "status": 500
-        }, 500
+        return ErrorResponse(
+            error= "gemini_api_error",
+            message= f"Error calling Gemini API: {str(e)}",
+            status= 500
+        ), 500
         
     except Exception as e:
         logging.error(e)
-        return {
-            "error": "unexpected_error",
-            "message": f"Unexpected error: {str(e)}",
-            "status": 500
-        }, 500
+        return ErrorResponse(
+            error="unexpected_error",
+            message=f"Unexpected error: {str(e)}",
+            status=500
+        ), 500
 
 
 @https_fn.on_request(secrets=[gemini_api_key])

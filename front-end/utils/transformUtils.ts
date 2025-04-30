@@ -69,7 +69,8 @@ export async function transformStoryFn(db: SQLiteDatabase, storyText: string, st
         emotions: verifiedData.emotions,
         origNotes: storyText,
         storyText: verifiedData.story,
-        searchable_text: verifiedData.searchable_text
+        searchable_text: verifiedData.searchable_text,
+        tips: verifiedData.tips
     }
 
     return finalStory

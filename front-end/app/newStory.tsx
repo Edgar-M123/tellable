@@ -84,7 +84,7 @@ export default function NewStoryPage() {
                 <NewStoryText showText={storyType} storyData={newStoryData} />
 
                 {storyType == "transformed" && newStoryData && (
-                    <StorytellingTips text={"Test text"} />
+                    <StorytellingTips tips={newStoryData.tips} />
                 )}
 
             </Animated.View>

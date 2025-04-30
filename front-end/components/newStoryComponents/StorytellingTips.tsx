@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { View, Pressable, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet, FlatList } from "react-native";
 import { ThemedText } from "../ThemedText";
 import { gls } from "@/app/_layout";
 import { useAppTheme } from "@/hooks/useAppTheme";
@@ -7,11 +7,19 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import Animated, { FadeIn, FadeOut, LinearTransition, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 
+function TipText(props: {text: string}) {
 
-export const StorytellingTips = memo(function StorytellingTips(props: {text: string}) {
+    return (
+        <ThemedText>{"\u2022" + props.text}</ThemedText>
+    )
+}
+
+
+export const StorytellingTips = memo(function StorytellingTips(props: {tips: string[]}) {
 
     const {theme} = useAppTheme()
     const [show, setShow] = React.useState(false)
+    console.log("tips:", props.tips)
 
     const rotate = useSharedValue(0)
     const rotateStyle = useAnimatedStyle(() => ({
@@ -45,7 +53,9 @@ export const StorytellingTips = memo(function StorytellingTips(props: {text: str
             {show && (
                 <Animated.View entering={FadeIn.duration(250)} exiting={FadeOut.duration(250)} style={[gls.width100]}>
 
-                    <ThemedText>{props.text}</ThemedText>
+                    {props.tips.map((value, index) => (
+                        <TipText key={index} text={value} />
+                    ))}
 
                 </Animated.View>
             )}

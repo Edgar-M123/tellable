@@ -34,7 +34,8 @@ export async function migrateDbIfNeeded(db: SQLiteDatabase) {
                 emotions TEXT,
                 origNotes TEXT,
                 storyText TEXT,
-                searchable_text TEXT
+                searchable_text TEXT,
+                tips TEXT
             );
 
             CREATE VIRTUAL TABLE stories_fts 
@@ -75,10 +76,10 @@ export async function saveStoryAsync(db: SQLiteDatabase, storyRaw: StoryRaw) {
     console.log("Converted to DB format")
     
     const {lastInsertRowId} = await db.runAsync(
-        `INSERT INTO stories (title, date, tags, emotions, origNotes, storyText, searchable_text)
-        VALUES (?, ?, ?, ?, ?, ?, ?);
+        `INSERT INTO stories (title, date, tags, emotions, origNotes, storyText, searchable_text, tips)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
         `,
-        [storyDB.title, storyDB.date, storyDB.tags, storyDB.emotions, storyDB.origNotes, storyDB.storyText, storyDB.searchable_text]
+        [storyDB.title, storyDB.date, storyDB.tags, storyDB.emotions, storyDB.origNotes, storyDB.storyText, storyDB.searchable_text, storyDB.tips]
     )
     console.log("Inserted into stories table")
     await db.runAsync(
@@ -112,7 +113,7 @@ export async function getStoryAsync(db: SQLiteDatabase, id: string) {
     
     const query = `
     SELECT
-    id, title, date, tags, emotions, origNotes, storyText, searchable_text
+    id, title, date, tags, emotions, origNotes, storyText, searchable_text, tips
     FROM stories
     WHERE id = ?
     `

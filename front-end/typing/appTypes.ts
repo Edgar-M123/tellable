@@ -4,12 +4,28 @@ export function toDBFormat(obj: StoryRaw | Story | StoryPreview): StoryDB | Stor
 
     if ((obj as Story).emotions && (obj as Story).id) {
         const story = obj as Story
-        return {...story, emotions: JSON.stringify(story.emotions), tags: JSON.stringify(story.tags)} as StoryDB
+
+        const storyDB = {
+            ...story, 
+            emotions: JSON.stringify(story.emotions), 
+            tags: JSON.stringify(story.tags),
+            tips: JSON.stringify(story.tips)
+        } as StoryDB
+
+        return storyDB
     }
 
     if ((obj as StoryRaw).emotions) {
         const storyRaw = obj as Story
-        return {...storyRaw, emotions: JSON.stringify(storyRaw.emotions), tags: JSON.stringify(storyRaw.tags)} as StoryDB
+        
+        const storyDB = {
+            ...storyRaw, 
+            emotions: JSON.stringify(storyRaw.emotions), 
+            tags: JSON.stringify(storyRaw.tags),
+            tips: JSON.stringify(storyRaw.tips)
+        } as StoryDB
+
+        return storyDB
     }
     
     const storyPrev = obj as StoryPreview
@@ -20,11 +36,27 @@ export function toDBFormat(obj: StoryRaw | Story | StoryPreview): StoryDB | Stor
 export function fromDBFormat(obj: StoryDB | StoryPreviewDB): Story | StoryPreview {
 
     if ((obj as StoryDB).emotions) {
-        const story = obj as StoryDB
-        return {...story, emotions: JSON.parse(story.emotions), tags: JSON.parse(story.tags)} as Story
+        const storyDB = obj as StoryDB
+        
+        const story = {
+            ...storyDB, 
+            emotions: JSON.parse(storyDB.emotions), 
+            tags: JSON.parse(storyDB.tags),
+            tips: JSON.parse(storyDB.tips)
+        } as Story
+        
+        return story
+
     } else {
-        const storyPrev = obj as StoryPreviewDB
-        return {...storyPrev, tags: JSON.parse(storyPrev.tags)} as StoryPreview
+
+        const storyPrevDB = obj as StoryPreviewDB
+
+        const storyPrev = {
+            ...storyPrevDB, 
+            tags: JSON.parse(storyPrevDB.tags)
+        } as StoryPreview
+
+        return storyPrev
     }
 }
 
@@ -36,6 +68,7 @@ export interface StoryRaw {
     storyText: string;
     emotions: string[];
     searchable_text: string;
+    tips: string[];
 }
 
 
@@ -52,6 +85,7 @@ export interface StoryDB {
     storyText: string;
     emotions: string;
     searchable_text: string;
+    tips: string;
 }
 
 
@@ -77,6 +111,7 @@ export interface TransformStoryResponseSuccess {
     tags: string[];
     emotions: string[];
     searchable_text: string;
+    tips: string[];
 }
 
 export interface TransformStoryResponseError {
